@@ -1,7 +1,7 @@
 ---
 description: Diseñador UI/UX del portafolio. Define el sistema de diseño (Tailwind v4), componentes visuales, temas y experiencia de usuario. Puede editar vistas y estilos.
 mode: subagent
-model: openrouter/qwen/qwen3.6-plus
+model: opencode/mimo-v2.5-free
 permission:
   edit: allow
   bash: allow

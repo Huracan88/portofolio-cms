@@ -10,16 +10,45 @@ class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
 
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $this->call([
+            RoleAndPermissionSeeder::class,
+            CategorySeeder::class,
+            TagSeeder::class,
+            SkillSeeder::class,
+            ProfileSeeder::class,
+            EducationSeeder::class,
+            LanguageSeeder::class,
+            ExperienceSeeder::class,
+        ]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        if (app()->environment('local', 'testing')) {
+            $admin = User::updateOrCreate(
+                ['email' => 'admin@example.com'],
+                [
+                    'name' => 'Admin',
+                    'password' => 'password',
+                    'email_verified_at' => now(),
+                ]
+            );
+            $admin->assignRole('super_admin', 'admin');
+
+            $editor = User::updateOrCreate(
+                ['email' => 'editor@example.com'],
+                [
+                    'name' => 'Editor',
+                    'password' => 'password',
+                    'email_verified_at' => now(),
+                ]
+            );
+            $editor->assignRole('editor');
+        }
+
+        $this->call([
+            ProjectSeeder::class,
+            PostSeeder::class,
+            ContactMessageSeeder::class,
         ]);
     }
 }

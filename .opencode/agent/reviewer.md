@@ -1,7 +1,7 @@
 ---
 description: Revisor de calidad. Audita código, corre tests, Pint, Larastan y valida el cumplimiento del plan y la UX. No edita archivos.
 mode: subagent
-model: openrouter/moonshotai/kimi-k2.6
+model: opencode/mimo-v2.5-free
 permission:
   edit: deny
   bash: allow

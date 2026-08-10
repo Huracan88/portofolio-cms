@@ -1,8 +1,26 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": "openrouter/deepseek/deepseek-v4-pro",
-  "small_model": "openrouter/deepseek/deepseek-v4-flash",
+  "model": "opencode/deepseek-v4-flash-free",
+  "small_model": "opencode/ling-3.0-tiny-free",
   "instructions": ["AGENTS.md"],
+  "skills": {
+    "paths": [".agents/skills"]
+  },
+  "mcp": {
+    "laravel-boost": {
+      "type": "local",
+      "command": [
+        "C:\\Users\\Andres\\.config\\herd\\bin\\php83\\php.exe",
+        "artisan",
+        "boost:mcp"
+      ],
+      "cwd": ".",
+      "enabled": true
+    }
+  },
+  "experimental": {
+    "mcp_timeout": 30000
+  },
   "permission": {
     "bash": {
       "*": "ask",
