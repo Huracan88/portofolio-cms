@@ -1,6 +1,6 @@
 <div>
     @section('meta_description', __('Have a project in mind or just want to say hello? Fill out the form below and I\'ll get back to you as soon as possible.'))
-    <x-section :title="__('GET IN TOUCH')" :eyebrow="__('CONTACT')" align="center">
+    <x-section :title="__('GET IN TOUCH')" :eyebrow="__('Contact')" align="center">
         <p class="max-w-xl mx-auto mt-4 text-center text-neo-muted">
             {{ __('Have a project in mind or just want to say hello? Fill out the form below and I\'ll get back to you as soon as possible.') }}
         </p>

@@ -40,7 +40,7 @@ test('home page displays attribute stat blocks', function () {
     $response = $this->get(route('home'));
     $response->assertOk();
     $response->assertSee(__('YEARS'));
-    $response->assertSee(__('SKILLS'));
+    $response->assertSee(__('Skills'));
 });
 
 test('home page uses neo-brutalist design elements', function () {
@@ -255,4 +255,18 @@ test('blog show has article og type', function () {
     $response = $this->get(route('blog.show', $post));
     $response->assertOk();
     $response->assertSee('<meta property="og:type" content="article"', false);
+});
+
+test('home page renders the AI portrait carousel', function () {
+    $this->seed();
+    $response = $this->get(route('home'));
+    $response->assertOk();
+    $response->assertSee('aria-roledescription="'.__('carousel').'"', false);
+    $response->assertSee(__('AI generated portraits'), false);
+    foreach (range(1, 4) as $i) {
+        $response->assertSee('gemini-portrait-'.$i.'.png', false);
+        $response->assertSee(__('AI generated pixel portrait :n', ['n' => $i]), false);
+    }
+    $response->assertSee(__('Next portrait'), false);
+    $response->assertSee(__('Previous portrait'), false);
 });

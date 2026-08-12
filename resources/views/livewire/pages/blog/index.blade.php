@@ -1,6 +1,6 @@
 <div>
     @section('meta_description', __('Thoughts, tutorials, and insights on web development, architecture, and software engineering.'))
-    <x-section :title="__('ARTICLES')" :eyebrow="__('BLOG')" align="center">
+    <x-section :title="__('ARTICLES')" :eyebrow="__('Blog')" align="center">
         <p class="max-w-2xl mx-auto mt-4 text-center text-neo-muted">
             {{ __('Thoughts, tutorials, and insights on web development, architecture, and software engineering.') }}
         </p>

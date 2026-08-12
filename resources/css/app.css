@@ -33,53 +33,6 @@
     --animate-marquee: marquee 26s linear infinite;
     --animate-pop: pop 0.25s ease-in-out;
 
-    /* ── Primary: Deep Professional Blue ── */
-    --color-primary-50: oklch(97% 0.014 254.1);
-    --color-primary-100: oklch(93% 0.029 253.8);
-    --color-primary-200: oklch(86% 0.056 253.1);
-    --color-primary-300: oklch(76% 0.088 252.5);
-    --color-primary-400: oklch(66% 0.129 251.8);
-    --color-primary-500: oklch(56% 0.169 251.2);
-    --color-primary-600: oklch(48% 0.173 251.0);
-    --color-primary-700: oklch(40% 0.162 250.8);
-    --color-primary-800: oklch(33% 0.138 250.5);
-    --color-primary-900: oklch(26% 0.108 250.2);
-    --color-primary-950: oklch(18% 0.072 249.8);
-
-    /* ── Accent: Amber/Gold ── */
-    --color-accent-50: oklch(98% 0.022 95.3);
-    --color-accent-100: oklch(95% 0.048 92.1);
-    --color-accent-200: oklch(89% 0.092 84.4);
-    --color-accent-300: oklch(82% 0.142 79.2);
-    --color-accent-400: oklch(74% 0.178 75.6);
-    --color-accent-500: oklch(66% 0.182 72.3);
-    --color-accent-600: oklch(58% 0.168 68.5);
-    --color-accent-700: oklch(50% 0.142 63.2);
-    --color-accent-800: oklch(42% 0.112 58.4);
-    --color-accent-900: oklch(34% 0.086 53.8);
-    --color-accent-950: oklch(24% 0.058 49.2);
-
-    /* ── Neutral: Slate ── */
-    --color-neutral-50: oklch(98.5% 0.002 247.8);
-    --color-neutral-100: oklch(96.8% 0.003 264.5);
-    --color-neutral-200: oklch(92.5% 0.006 264.5);
-    --color-neutral-300: oklch(86.9% 0.008 264.5);
-    --color-neutral-400: oklch(77.8% 0.011 264.5);
-    --color-neutral-500: oklch(63.7% 0.015 264.5);
-    --color-neutral-600: oklch(50.5% 0.018 264.5);
-    --color-neutral-700: oklch(40.8% 0.018 264.5);
-    --color-neutral-800: oklch(31.5% 0.016 264.5);
-    --color-neutral-900: oklch(23.5% 0.014 264.5);
-    --color-neutral-950: oklch(14.5% 0.011 264.5);
-
-    /* ── Semantic ── */
-    --color-success-50: oklch(98% 0.018 155.8);
-    --color-success-500: oklch(62% 0.162 155.8);
-    --color-success-700: oklch(44% 0.119 155.8);
-    --color-danger-50: oklch(97% 0.014 25.3);
-    --color-danger-500: oklch(63% 0.237 25.3);
-    --color-danger-700: oklch(48% 0.186 25.3);
-
     /* ── Border Radius ── */
     --radius-sm: 0.375rem;
     --radius-md: 0.5rem;
@@ -91,6 +44,8 @@
     /* ── Animations ── */
     --animate-float: float 4s ease-in-out infinite;
     --animate-blink: blink 1s steps(2, start) infinite;
+    --animate-scanline-pass: scanline-pass 8s linear infinite;
+    --animate-dot-pop: dot-pop 0.3s ease-out;
 
     /* ── Shadows ── */
     --shadow-sm: 0 1px 2px 0 oklch(0% 0 0 / 0.05);
@@ -140,6 +95,32 @@ html {
     }
 }
 
+/* Scanline overlay — slow vertical drift */
+@keyframes scanline-pass {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 0 100px;
+    }
+}
+
+/* Dot indicator activation bounce */
+@keyframes dot-pop {
+    0% {
+        transform: scale(1);
+    }
+    40% {
+        transform: scale(1.25);
+    }
+    70% {
+        transform: scale(0.92);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
 /* Prevent Alpine x-show flash before hydration */
 [x-cloak] {
     display: none !important;
@@ -174,4 +155,24 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
     @apply bg-neo-muted/70;
+}
+
+/* ── Reduced motion: disable carousel animations ── */
+@media (prefers-reduced-motion: reduce) {
+    .animate-scanline-pass {
+        animation: none;
+    }
+
+    .animate-dot-pop {
+        animation: none;
+    }
+
+    [role="group"] {
+        transition: none !important;
+    }
+
+    .animate-blink {
+        animation: none;
+        opacity: 1;
+    }
 }

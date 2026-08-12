@@ -8,19 +8,19 @@
     @php
         $ticker = ['LARAVEL', 'LIVEWIRE', 'FILAMENT', 'TAILWIND', 'MARIADB', 'DOCKER', 'PHP', 'PEST', 'VITE'];
         $sprite = [
-            '.....WW.......',
-            '.....WW.......',
-            'WWWWWWWWWWWWWW',
-            'WGGGGGGGGGGGGW',
-            'WWGGGGGGGGGGWW',
-            'WWGGGGGGGGGGWW',
-            'GGGGGGGGGGGGGG',
-            'WGGGGWWWWGGGGW',
-            'WWWWWWWWWWWWWW',
-            '.....WWWW.....',
-            'WGGGGGGGGGGGGW',
-            'WGGGGWWGGGGGGW',
-            'WWWWWWWWWWWWWW',
+            '...WW...WW....',
+            '..WGGW..WGG...',
+            '.WGGGG..WGGG..',
+            '.WGGGG..WGGG..',
+            'WGGGGGW.WGGG..',
+            'WGGWWGGWWGGG..',
+            'WGGWWGGWWWGG..',
+            'WGGGGGW..WGG..',
+            'WGGGGG...WGGG.',
+            'WGGGG....WGGG.',
+            'WGGG.....WGGG.',
+            'WGGG.....WGGGW',
+            'WGG......WWWW.',
         ];
         $spriteColors = [
             'W' => 'bg-neo-text',
@@ -89,11 +89,11 @@
                         </div>
                         <div class="border-2 border-neo-text bg-neo-panel p-3 text-center shadow-neo-sm">
                             <p class="font-display-heavy text-2xl text-neo-text">{{ $featuredProjects->count() }}+</p>
-                            <p class="mt-1 font-mono text-[9px] font-bold tracking-widest text-neo-muted uppercase">{{ __('PROJECTS') }}</p>
+                            <p class="mt-1 font-mono text-[9px] font-bold tracking-widest text-neo-muted uppercase">{{ __('Projects') }}</p>
                         </div>
                         <div class="border-2 border-neo-text bg-neo-panel p-3 text-center shadow-neo-sm">
                             <p class="font-display-heavy text-2xl text-neo-text">{{ $skills->flatten()->count() }}</p>
-                            <p class="mt-1 font-mono text-[9px] font-bold tracking-widest text-neo-muted uppercase">{{ __('SKILLS') }}</p>
+                            <p class="mt-1 font-mono text-[9px] font-bold tracking-widest text-neo-muted uppercase">{{ __('Skills') }}</p>
                         </div>
                     </div>
                 </div>
@@ -115,20 +115,148 @@
                             </div>
                         </div>
 
-                        {{-- Sprite --}}
-                        <div class="relative flex items-center justify-center px-8 py-10">
-                            <div class="pointer-events-none absolute inset-0 opacity-10"
-                                 style="background-image: repeating-linear-gradient(0deg, #fff 0 1px, transparent 1px 4px);"></div>
-                            <div class="animate-float" aria-hidden="true">
-                                <div class="flex flex-col gap-[3px]">
-                                    @foreach ($sprite as $row)
-                                        <div class="flex gap-[3px]">
-                                            @foreach (str_split($row) as $cell)
-                                                <span class="h-2.5 w-2.5 sm:h-3 sm:w-3 {{ $spriteColors[$cell] ?? '' }}"></span>
-                                            @endforeach
-                                        </div>
-                                    @endforeach
+                        {{-- Portrait Carousel — CRT Scanline Style --}}
+                        <div
+                            class="bg-neo-panel-deep"
+                            x-data="{
+                                current: 0,
+                                total: 4,
+                                transitioning: false,
+                                autoplayTimer: null,
+                                paused: false,
+
+                                init() {
+                                    this.startAutoplay();
+                                },
+
+                                startAutoplay() {
+                                    this.stopAutoplay();
+                                    this.autoplayTimer = setInterval(() => {
+                                        if (!this.paused && !this.transitioning) {
+                                            this.go((this.current + 1) % this.total);
+                                        }
+                                    }, 5000);
+                                },
+
+                                stopAutoplay() {
+                                    if (this.autoplayTimer) {
+                                        clearInterval(this.autoplayTimer);
+                                        this.autoplayTimer = null;
+                                    }
+                                },
+
+                                go(index) {
+                                    if (this.transitioning || index === this.current) return;
+                                    this.transitioning = true;
+                                    this.current = index;
+                                    this.startAutoplay();
+                                    setTimeout(() => { this.transitioning = false; }, 350);
+                                },
+
+                                next() { this.go((this.current + 1) % this.total); },
+                                prev() { this.go((this.current - 1 + this.total) % this.total); },
+
+                                label(i) {
+                                    const names = ['{{ __("Portrait") }} 1', '{{ __("Portrait") }} 2', '{{ __("Portrait") }} 3', '{{ __("Portrait") }} 4'];
+                                    return names[i];
+                                }
+                            }"
+                            @keydown.arrow-right.prevent="next()"
+                            @keydown.arrow-left.prevent="prev()"
+                            @keydown.home.prevent="go(0)"
+                            @keydown.end.prevent="go(total - 1)"
+                            @mouseenter="paused = true"
+                            @mouseleave="paused = false"
+                            @focusin="paused = true"
+                            @focusout="paused = false"
+                            role="region"
+                            aria-roledescription="{{ __('carousel') }}"
+                            aria-label="{{ __('AI generated portraits') }}"
+                        >
+                            {{-- Carousel viewport --}}
+                            <div class="relative aspect-[4/3] max-h-64 sm:max-h-72 overflow-hidden">
+                                {{-- Slides --}}
+                                @for ($i = 1; $i <= 4; $i++)
+                                    <div
+                                        class="absolute inset-0 transition-opacity duration-200"
+                                        :class="current === {{ $i - 1 }} ? 'opacity-100 z-10' : 'opacity-0 z-0'"
+                                        role="group"
+                                        aria-roledescription="{{ __('slide') }}"
+                                        :aria-label="label({{ $i - 1 }})"
+                                        :aria-hidden="current !== {{ $i - 1 }}"
+                                        x-show="current === {{ $i - 1 }} || transitioning"
+                                    >
+                                        <img
+                                            src="{{ asset('images/gemini-portraits/gemini-portrait-' . $i . '.png') }}"
+                                            alt="{{ __('AI generated pixel portrait :n', ['n' => $i]) }}"
+                                            class="h-full w-full object-cover"
+                                            width="1195"
+                                            height="896"
+                                            loading="{{ $i === 1 ? 'eager' : 'lazy' }}"
+                                            decoding="async"
+                                        >
+                                    </div>
+                                @endfor
+
+                                {{-- CRT Scanline overlay (always visible, intensifies during transition) --}}
+                                <div
+                                    class="pointer-events-none absolute inset-0 z-20 opacity-[0.07] animate-scanline-pass"
+                                    style="background-image: repeating-linear-gradient(0deg, #fff 0 1px, transparent 1px 3px);"
+                                    aria-hidden="true"
+                                ></div>
+
+                                {{-- CRT flicker flash during transition --}}
+                                <div
+                                    class="pointer-events-none absolute inset-0 z-30 bg-neo-text transition-opacity duration-100"
+                                    :class="transitioning ? 'opacity-[0.12]' : 'opacity-0'"
+                                    aria-hidden="true"
+                                ></div>
+
+                                {{-- Previous button --}}
+                                <button
+                                    type="button"
+                                    class="absolute left-2 top-1/2 z-40 flex h-8 w-8 -translate-y-1/2 items-center justify-center border-2 border-neo-text bg-neo-bg/90 font-mono text-sm font-bold text-neo-text shadow-neo-sm transition-all duration-150 hover:-translate-x-0.5 hover:-translate-y-[calc(50%+0.5px)] hover:bg-neo-text hover:text-neo-bg active:translate-x-0 active:translate-y-[-50%] active:shadow-none"
+                                    @click="prev()"
+                                    aria-label="{{ __('Previous portrait') }}"
+                                >◀</button>
+
+                                {{-- Next button --}}
+                                <button
+                                    type="button"
+                                    class="absolute right-2 top-1/2 z-40 flex h-8 w-8 -translate-y-1/2 items-center justify-center border-2 border-neo-text bg-neo-bg/90 font-mono text-sm font-bold text-neo-text shadow-neo-sm transition-all duration-150 hover:-translate-x-0.5 hover:-translate-y-[calc(50%+0.5px)] hover:bg-neo-text hover:text-neo-bg active:translate-x-0 active:translate-y-[-50%] active:shadow-none"
+                                    @click="next()"
+                                    aria-label="{{ __('Next portrait') }}"
+                                >▶</button>
+
+                                {{-- Counter "01 / 04" --}}
+                                <div class="absolute top-2 right-2 z-40 border-2 border-neo-text bg-neo-bg/90 px-2 py-0.5 font-mono text-[10px] font-bold tracking-widest text-neo-text">
+                                    <span x-text="String(current + 1).padStart(2, '0')">01</span>
+                                    <span class="text-neo-muted">/</span>
+                                    <span>04</span>
                                 </div>
+
+                                {{-- Autoplay indicator --}}
+                                <div class="absolute top-2 left-2 z-40 flex items-center gap-1.5 border-2 border-neo-text bg-neo-bg/90 px-2 py-0.5 font-mono text-[9px] font-bold tracking-widest text-neo-muted">
+                                    <span class="inline-block h-1.5 w-1.5" :class="paused ? 'bg-neo-muted' : 'animate-blink bg-neo-text'"></span>
+                                    <span x-text="paused ? '{{ __("PAUSED") }}' : '{{ __("AUTO") }}'">AUTO</span>
+                                </div>
+                            </div>
+
+                            {{-- Dot indicators --}}
+                            <div class="flex items-center justify-center gap-2 border-t-2 border-neo-text bg-neo-panel-deep px-4 py-2.5" role="tablist" aria-label="{{ __('Portrait navigation') }}">
+                                @for ($i = 1; $i <= 4; $i++)
+                                    <button
+                                        type="button"
+                                        class="border-2 px-2 py-0.5 font-pixel text-[8px] transition-all duration-150"
+                                        :class="current === {{ $i - 1 }}
+                                            ? 'border-neo-text bg-neo-text text-neo-bg shadow-neo-sm animate-dot-pop'
+                                            : 'border-neo-muted bg-neo-panel text-neo-muted hover:border-neo-text hover:text-neo-text'"
+                                        @click="go({{ $i - 1 }})"
+                                        role="tab"
+                                        :aria-selected="current === {{ $i - 1 }}"
+                                        aria-label="{{ __('Go to portrait :n', ['n' => $i]) }}"
+                                    >{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}</button>
+                                @endfor
                             </div>
                         </div>
 
@@ -141,8 +269,9 @@
                                     {{ __('OPEN FOR WORK') }}
                                 </span>
                             </div>
-                            <div class="mt-3 h-8 w-full opacity-80"
-                                 style="background-image: repeating-linear-gradient(90deg, #fff 0 2px, transparent 2px 4px, #fff 4px 5px, transparent 5px 9px, #fff 9px 12px, transparent 12px 13px);"></div>
+                            <div class="mt-3 h-8 w-full opacity-80" aria-hidden="true"
+                                 style="background-image: repeating-linear-gradient(90deg, #fff 0 2px, transparent 2px 4px, #fff 4px 5px, transparent 5px 9px, #fff 9px 12px, transparent 12px 13px);">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -262,15 +391,15 @@
                 </div>
                 <div class="border-2 border-neo-text bg-neo-panel p-4 text-center shadow-neo-sm">
                     <p class="font-display-heavy text-3xl text-neo-text">{{ $featuredProjects->count() }}+</p>
-                    <p class="mt-1 font-mono text-[9px] font-bold tracking-widest text-neo-muted uppercase">{{ __('PROJECTS') }}</p>
+                    <p class="mt-1 font-mono text-[9px] font-bold tracking-widest text-neo-muted uppercase">{{ __('Projects') }}</p>
                 </div>
                 <div class="border-2 border-neo-text bg-neo-panel p-4 text-center shadow-neo-sm">
                     <p class="font-display-heavy text-3xl text-neo-text">{{ $skills->flatten()->count() }}</p>
-                    <p class="mt-1 font-mono text-[9px] font-bold tracking-widest text-neo-muted uppercase">{{ __('SKILLS') }}</p>
+                    <p class="mt-1 font-mono text-[9px] font-bold tracking-widest text-neo-muted uppercase">{{ __('Skills') }}</p>
                 </div>
                 <div class="border-2 border-neo-text bg-neo-panel p-4 text-center shadow-neo-sm">
                     <p class="font-mono text-sm font-bold leading-tight text-neo-text">SIG<br>{{ $profile?->license_number ?? '000000' }}</p>
-                    <p class="mt-1 font-mono text-[9px] font-bold tracking-widest text-neo-muted uppercase">{{ __('LICENSE') }}</p>
+                    <p class="mt-1 font-mono text-[9px] font-bold tracking-widest text-neo-muted uppercase">{{ __('License') }}</p>
                 </div>
             </div>
 
@@ -311,7 +440,20 @@
             <span class="absolute bottom-3 left-3 h-5 w-5 border-b-4 border-l-4 border-neo-text"></span>
             <span class="absolute bottom-3 right-3 h-5 w-5 border-b-4 border-r-4 border-neo-text"></span>
 
-            <p class="font-mono text-xs font-bold tracking-[0.3em] text-neo-muted uppercase">// {{ __('CONTACT') }}</p>
+            {{-- Decorative "AP" sprite background --}}
+            <div class="pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-[0.04]" aria-hidden="true">
+                <div class="flex flex-col gap-[3px]">
+                    @foreach ($sprite as $row)
+                        <div class="flex gap-[3px]">
+                            @foreach (str_split($row) as $cell)
+                                <span class="h-2.5 w-2.5 sm:h-3 sm:w-3 {{ $spriteColors[$cell] ?? '' }}"></span>
+                            @endforeach
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+
+            <p class="font-mono text-xs font-bold tracking-[0.3em] text-neo-muted uppercase">// {{ __('Contact') }}</p>
             <h2 class="mx-auto mt-4 max-w-3xl font-display-heavy text-4xl tracking-tight text-neo-text uppercase sm:text-5xl">
                 {{ __('READY TO BUILD SOMETHING?') }}
             </h2>
