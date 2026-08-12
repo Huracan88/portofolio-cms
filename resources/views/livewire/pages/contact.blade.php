@@ -1,7 +1,7 @@
 <div>
     @section('meta_description', __('Have a project in mind or just want to say hello? Fill out the form below and I\'ll get back to you as soon as possible.'))
-    <x-section :title="__('Get in Touch')" :eyebrow="__('Contact')" align="center">
-        <p class="mt-4 text-neutral-500 dark:text-neutral-400 max-w-xl mx-auto text-center">
+    <x-section :title="__('GET IN TOUCH')" :eyebrow="__('CONTACT')" align="center">
+        <p class="max-w-xl mx-auto mt-4 text-center text-neo-muted">
             {{ __('Have a project in mind or just want to say hello? Fill out the form below and I\'ll get back to you as soon as possible.') }}
         </p>
     </x-section>
@@ -9,14 +9,14 @@
     <div class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
         @if ($sent)
             <x-card class="text-center py-10">
-                <div class="w-14 h-14 rounded-full bg-success-50 dark:bg-success-500/20 flex items-center justify-center mx-auto mb-4">
-                    <x-svg-icon name="check" class="w-7 h-7 text-success-500 dark:text-success-400" />
+                <div class="flex h-12 w-12 items-center justify-center border-2 border-neo-text bg-neo-panel-deep mx-auto mb-4">
+                    <x-svg-icon name="check" class="w-6 h-6 text-neo-text" />
                 </div>
-                <h2 class="font-display font-semibold text-xl text-neutral-900 dark:text-white mb-2">{{ __('Message Sent!') }}</h2>
-                <p class="text-neutral-500 dark:text-neutral-400">{{ __('Thank you for reaching out. I\'ll get back to you soon.') }}</p>
-                <button wire:click="$set('sent', false)" class="mt-6 text-sm text-primary-600 dark:text-primary-400 hover:underline">
-                    {{ __('Send another message') }}
-                </button>
+                <h2 class="font-display-heavy text-xl uppercase text-neo-text mb-2">{{ __('MESSAGE SENT') }}</h2>
+                <p class="text-neo-muted">{{ __('Thank you for reaching out. I\'ll get back to you soon.') }}</p>
+                <x-button variant="ghost" size="sm" wire:click="$set('sent', false)" class="mt-6">
+                    {{ __('SEND ANOTHER MESSAGE') }}
+                </x-button>
             </x-card>
         @else
             <x-card>
@@ -65,7 +65,7 @@
 
                     <div class="pt-2">
                         <x-button type="submit" variant="primary" size="lg" class="w-full sm:w-auto" icon="send">
-                            {{ __('Send Message') }}
+                            {{ __('SEND MESSAGE') }}
                         </x-button>
                     </div>
                 </form>

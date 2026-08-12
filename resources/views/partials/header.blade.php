@@ -1,69 +1,63 @@
-{{-- Shared header (default layout) --}}
-<header class="sticky top-0 z-40 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-md border-b border-neutral-200 dark:border-neutral-800" x-data="{ mobileOpen: false }">
+{{-- Neo-Brutalist header (default layout) --}}
+<header class="sticky top-0 z-40 bg-neo-bg/95 backdrop-blur border-b-2 border-neo-text" x-data="{ mobileOpen: false }">
     <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16" aria-label="{{ __('Navigation') }}">
         {{-- Logo --}}
-        <a href="{{ route('home') }}" wire:navigate class="font-display font-bold text-xl text-primary-600 dark:text-primary-400 tracking-tight">
-            AP
+        <a href="{{ route('home') }}" wire:navigate class="group inline-flex items-center gap-2.5">
+            <span class="flex h-9 w-9 items-center justify-center bg-neo-text text-neo-bg font-display-heavy text-lg shadow-neo-sm transition-all duration-150 group-hover:-translate-x-0.5 group-hover:-translate-y-0.5 active:translate-x-0 active:translate-y-0 active:shadow-none">
+                AP
+            </span>
+            <span class="hidden sm:block font-pixel text-[9px] tracking-widest text-neo-muted">{{ __('MODE: BUILD') }}</span>
         </a>
 
         {{-- Desktop nav --}}
-        <div class="hidden md:flex items-center gap-8">
-            <a href="{{ route('home') }}" wire:navigate class="text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors @if(request()->routeIs('home')) text-primary-600 dark:text-primary-400 @endif">
-                {{ __('Home') }}
-            </a>
-            <a href="{{ route('projects.index') }}" wire:navigate class="text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors @if(request()->routeIs('projects.*')) text-primary-600 dark:text-primary-400 @endif">
-                {{ __('Projects') }}
-            </a>
-            <a href="{{ route('blog.index') }}" wire:navigate class="text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors @if(request()->routeIs('blog.*')) text-primary-600 dark:text-primary-400 @endif">
-                {{ __('Blog') }}
-            </a>
-            <a href="{{ route('contact') }}" wire:navigate class="text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors @if(request()->routeIs('contact')) text-primary-600 dark:text-primary-400 @endif">
-                {{ __('Contact') }}
-            </a>
+        <div class="hidden md:flex items-center gap-1">
+            @foreach ([
+                ['label' => __('Home'), 'route' => 'home', 'active' => request()->routeIs('home')],
+                ['label' => __('Projects'), 'route' => 'projects.index', 'active' => request()->routeIs('projects.*')],
+                ['label' => __('Blog'), 'route' => 'blog.index', 'active' => request()->routeIs('blog.*')],
+                ['label' => __('Contact'), 'route' => 'contact', 'active' => request()->routeIs('contact')],
+            ] as $item)
+                <a
+                    href="{{ route($item['route']) }}"
+                    wire:navigate
+                    class="px-3 py-2 font-mono text-xs font-bold uppercase tracking-wider border-2 transition-all duration-150 {{ $item['active'] ? 'bg-neo-text text-neo-bg border-neo-text shadow-neo-sm' : 'border-transparent text-neo-muted hover:border-neo-text hover:text-neo-text hover:-translate-y-0.5 hover:bg-neo-panel' }}"
+                >
+                    {{ $item['label'] }}
+                </a>
+            @endforeach
         </div>
 
         {{-- Desktop actions --}}
         <div class="hidden md:flex items-center gap-3">
-            {{-- Theme toggle --}}
-            <button
-                x-data
-                @click="$store.theme.toggle()"
-                class="p-2 rounded-md text-neutral-500 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
-                :aria-label="$store.theme.dark ? '{{ __('Light Mode') }}' : '{{ __('Dark Mode') }}'"
-            >
-                <x-svg-icon name="sun" class="w-5 h-5 hidden dark:block" />
-                <x-svg-icon name="moon" class="w-5 h-5 block dark:hidden" />
-            </button>
-
             {{-- Language switcher --}}
-            <div class="flex items-center gap-1 border border-neutral-200 dark:border-neutral-700 rounded-md p-0.5">
+            <div class="flex items-center border-2 border-neo-text shadow-neo-sm">
                 <a
                     href="{{ route('locale.switch', ['locale' => 'es']) }}"
-                    class="px-2 py-1 text-xs font-medium rounded-sm transition-colors @if(app()->getLocale() === 'es') bg-primary-100 dark:bg-primary-900/40 text-primary-700 dark:text-primary-300 @else text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300 @endif"
+                    class="px-2.5 py-1.5 font-mono text-xs font-bold {{ app()->getLocale() === 'es' ? 'bg-neo-text text-neo-bg' : 'text-neo-muted hover:bg-neo-panel hover:text-neo-text' }}"
                     aria-label="{{ __('Spanish') }}"
                 >ES</a>
                 <a
                     href="{{ route('locale.switch', ['locale' => 'en']) }}"
-                    class="px-2 py-1 text-xs font-medium rounded-sm transition-colors @if(app()->getLocale() === 'en') bg-primary-100 dark:bg-primary-900/40 text-primary-700 dark:text-primary-300 @else text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300 @endif"
+                    class="px-2.5 py-1.5 font-mono text-xs font-bold border-l-2 border-neo-text {{ app()->getLocale() === 'en' ? 'bg-neo-text text-neo-bg' : 'text-neo-muted hover:bg-neo-panel hover:text-neo-text' }}"
                     aria-label="{{ __('English') }}"
                 >EN</a>
             </div>
+
+            {{-- CTA --}}
+            <a
+                href="{{ route('contact') }}"
+                wire:navigate
+                class="inline-flex items-center gap-2 px-4 py-2 font-mono text-xs font-bold uppercase tracking-wider bg-neo-text text-neo-bg border-2 border-neo-text shadow-neo-sm transition-all duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-0 active:translate-y-0 active:shadow-none"
+            >
+                {{ __('HIRE ME') }}
+            </a>
         </div>
 
         {{-- Mobile hamburger --}}
-        <div class="flex md:hidden items-center gap-2">
-            <button
-                x-data
-                @click="$store.theme.toggle()"
-                class="p-2 rounded-md text-neutral-500 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
-                :aria-label="$store.theme.dark ? '{{ __('Light Mode') }}' : '{{ __('Dark Mode') }}'"
-            >
-                <x-svg-icon name="sun" class="w-4 h-4 hidden dark:block" />
-                <x-svg-icon name="moon" class="w-4 h-4 block dark:hidden" />
-            </button>
+        <div class="flex md:hidden items-center">
             <button
                 @click="mobileOpen = !mobileOpen"
-                class="p-2 rounded-md text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                class="p-2 border-2 border-neo-text text-neo-text shadow-neo-sm transition-all duration-150 active:translate-x-0 active:translate-y-0 active:shadow-none"
                 :aria-label="mobileOpen ? '{{ __('Close Menu') }}' : '{{ __('Open Menu') }}'"
                 aria-expanded="false"
                 x-bind:aria-expanded="mobileOpen"
@@ -84,16 +78,27 @@
         x-transition:leave-start="opacity-100 translate-y-0"
         x-transition:leave-end="opacity-0 -translate-y-2"
         x-cloak
-        class="md:hidden border-t border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950"
+        class="md:hidden border-t-2 border-neo-text bg-neo-bg"
     >
-        <div class="px-4 py-4 space-y-3">
-            <a href="{{ route('home') }}" wire:navigate @click="mobileOpen = false" class="block text-sm font-medium py-2 text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">{{ __('Home') }}</a>
-            <a href="{{ route('projects.index') }}" wire:navigate @click="mobileOpen = false" class="block text-sm font-medium py-2 text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">{{ __('Projects') }}</a>
-            <a href="{{ route('blog.index') }}" wire:navigate @click="mobileOpen = false" class="block text-sm font-medium py-2 text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">{{ __('Blog') }}</a>
-            <a href="{{ route('contact') }}" wire:navigate @click="mobileOpen = false" class="block text-sm font-medium py-2 text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">{{ __('Contact') }}</a>
-            <div class="flex items-center gap-2 pt-2">
-                <a href="{{ route('locale.switch', ['locale' => 'es']) }}" class="px-3 py-1 text-xs font-medium rounded-md border border-neutral-200 dark:border-neutral-700 @if(app()->getLocale() === 'es') bg-primary-100 dark:bg-primary-900/40 text-primary-700 dark:text-primary-300 border-primary-200 dark:border-primary-800 @else text-neutral-500 dark:text-neutral-400 @endif">ES</a>
-                <a href="{{ route('locale.switch', ['locale' => 'en']) }}" class="px-3 py-1 text-xs font-medium rounded-md border border-neutral-200 dark:border-neutral-700 @if(app()->getLocale() === 'en') bg-primary-100 dark:bg-primary-900/40 text-primary-700 dark:text-primary-300 border-primary-200 dark:border-primary-800 @else text-neutral-500 dark:text-neutral-400 @endif">EN</a>
+        <div class="px-4 py-4 space-y-2">
+            @foreach ([
+                ['label' => __('Home'), 'route' => 'home'],
+                ['label' => __('Projects'), 'route' => 'projects.index'],
+                ['label' => __('Blog'), 'route' => 'blog.index'],
+                ['label' => __('Contact'), 'route' => 'contact'],
+            ] as $item)
+                <a
+                    href="{{ route($item['route']) }}"
+                    wire:navigate
+                    @click="mobileOpen = false"
+                    class="block px-3 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-neo-muted hover:bg-neo-text hover:text-neo-bg"
+                >
+                    ▶ {{ $item['label'] }}
+                </a>
+            @endforeach
+            <div class="flex items-center gap-2 pt-3">
+                <a href="{{ route('locale.switch', ['locale' => 'es']) }}" class="px-3 py-1.5 font-mono text-xs font-bold border-2 border-neo-text shadow-neo-sm transition-all duration-150 {{ app()->getLocale() === 'es' ? 'bg-neo-text text-neo-bg' : 'text-neo-muted hover:bg-neo-panel hover:text-neo-text' }}">ES</a>
+                <a href="{{ route('locale.switch', ['locale' => 'en']) }}" class="px-3 py-1.5 font-mono text-xs font-bold border-2 border-neo-text shadow-neo-sm transition-all duration-150 {{ app()->getLocale() === 'en' ? 'bg-neo-text text-neo-bg' : 'text-neo-muted hover:bg-neo-panel hover:text-neo-text' }}">EN</a>
             </div>
         </div>
     </div>

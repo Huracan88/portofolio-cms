@@ -35,59 +35,43 @@ test('home page displays featured projects', function () {
     }
 });
 
-test('home page displays experience timeline', function () {
+test('home page displays attribute stat blocks', function () {
     $this->seed();
     $response = $this->get(route('home'));
     $response->assertOk();
-    $response->assertSee('SESA');
+    $response->assertSee(__('YEARS'));
+    $response->assertSee(__('SKILLS'));
 });
 
-test('home-2 arcade page renders successfully', function () {
+test('home page uses neo-brutalist design elements', function () {
     $this->seed();
-    $response = $this->get(route('home-2'));
+    $response = $this->get(route('home'));
     $response->assertOk();
-    $response->assertSee('Andrés');
-    $response->assertSee(__('PRESS START'));
-    $response->assertSee(__('QUEST LOG'));
-});
-
-test('home-2 arcade page displays featured projects and skills', function () {
-    $this->seed();
-    $response = $this->get(route('home-2'));
-    $response->assertOk();
-    $featuredCount = Project::where('is_visible', true)->where('is_featured', true)->count();
-    if ($featuredCount > 0) {
-        $response->assertSee(__('INVENTORY'));
-    }
-    $response->assertSee(__('CHARACTER STATUS'));
-});
-
-test('home-3 neo-brutalist page renders successfully', function () {
-    $this->seed();
-    $response = $this->get(route('home-3'));
-    $response->assertOk();
-    $response->assertSee('Andrés');
     $response->assertSee(__('STATUS: READY FOR PRODUCTION'));
     $response->assertSee(__('DEVELOPER'));
     $response->assertSee(__('HIRE ME'));
 });
 
-test('home-3 neo-brutalist page displays featured projects and skills', function () {
+test('home page displays featured projects and skills', function () {
     $this->seed();
-    $response = $this->get(route('home-3'));
+    $response = $this->get(route('home'));
     $response->assertOk();
-    $featuredCount = Project::where('is_visible', true)->where('is_featured', true)->count();
-    if ($featuredCount > 0) {
-        $response->assertSee(__('POWER-UPS'));
-    }
+    $response->assertSee(__('POWER-UPS'));
     $response->assertSee(__('ATTRIBUTES'));
     $response->assertSee(__('TECH & SKILLS'));
+});
+
+test('legacy home-2 and home-3 urls return 404', function () {
+    $this->seed();
+    $this->get('/home-2')->assertNotFound();
+    $this->get('/home-3')->assertNotFound();
 });
 
 test('projects index renders successfully', function () {
     $this->seed();
     $response = $this->get(route('projects.index'));
     $response->assertOk();
+    $response->assertSee(__('ALL PROJECTS'));
     $response->assertSee('Catastro');
 });
 
@@ -122,6 +106,7 @@ test('blog index renders successfully', function () {
     $this->seed();
     $response = $this->get(route('blog.index'));
     $response->assertOk();
+    $response->assertSee(__('ARTICLES'));
     $response->assertSee('Eloquent');
 });
 
@@ -146,6 +131,7 @@ test('contact page renders successfully', function () {
     $this->seed();
     $response = $this->get(route('contact'));
     $response->assertOk();
+    $response->assertSee(__('GET IN TOUCH'));
     $response->assertSee('Contact');
 });
 

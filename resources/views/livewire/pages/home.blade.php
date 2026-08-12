@@ -1,237 +1,333 @@
-<div class="overflow-hidden">
+<div class="relative overflow-hidden bg-neo-bg text-neo-text">
     @section('meta_description', $profile?->title ?? __('Senior Fullstack Developer & Software Engineer — 17+ years building custom web solutions.'))
     @section('meta_type', 'profile')
     @if($profile?->photo_url)
         @section('meta_image', asset($profile->photo_url))
     @endif
-    {{-- Hero --}}
-    <section class="relative bg-gradient-to-br from-primary-50 via-white to-neutral-50 dark:from-neutral-950 dark:via-neutral-900 dark:to-primary-950/20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-32">
-            <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-                <div class="shrink-0">
-                    @if ($profile?->photo_url)
-                        <img src="{{ asset($profile->photo_url) }}" alt="{{ $profile->full_name }}" class="w-40 h-40 sm:w-48 sm:h-48 rounded-2xl object-cover shadow-xl ring-4 ring-white dark:ring-neutral-800" loading="eager" fetchpriority="high" width="192" height="192">
-                    @else
-                        <div class="w-40 h-40 sm:w-48 sm:h-48 rounded-2xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center shadow-xl ring-4 ring-white dark:ring-neutral-800">
-                            <span class="text-5xl font-bold text-white font-display">{{ collect(explode(' ', $profile?->full_name ?? 'AP'))->map(fn($n) => mb_substr($n, 0, 1))->take(2)->join('') }}</span>
+
+    @php
+        $ticker = ['LARAVEL', 'LIVEWIRE', 'FILAMENT', 'TAILWIND', 'MARIADB', 'DOCKER', 'PHP', 'PEST', 'VITE'];
+        $sprite = [
+            '.....WW.......',
+            '.....WW.......',
+            'WWWWWWWWWWWWWW',
+            'WGGGGGGGGGGGGW',
+            'WWGGGGGGGGGGWW',
+            'WWGGGGGGGGGGWW',
+            'GGGGGGGGGGGGGG',
+            'WGGGGWWWWGGGGW',
+            'WWWWWWWWWWWWWW',
+            '.....WWWW.....',
+            'WGGGGGGGGGGGGW',
+            'WGGGGWWGGGGGGW',
+            'WWWWWWWWWWWWWW',
+        ];
+        $spriteColors = [
+            'W' => 'bg-neo-text',
+            'G' => 'bg-neo-muted',
+        ];
+    @endphp
+
+    {{-- ============================== HERO ============================== --}}
+    <section class="relative">
+        {{-- Background grid + decorations --}}
+        <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+            <div class="absolute inset-0 opacity-[0.05]"
+                 style="background-image: linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px); background-size: 44px 44px;"></div>
+            <span class="absolute top-10 left-4 sm:left-8 font-mono text-lg text-neo-text/20">+</span>
+            <span class="absolute top-24 right-6 font-mono text-sm text-neo-text/20">×</span>
+            <span class="absolute bottom-16 left-[12%] font-mono text-sm text-neo-text/20">#</span>
+            <span class="absolute bottom-24 right-[8%] font-mono text-lg text-neo-text/20">+</span>
+        </div>
+
+        <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 pb-20 sm:pt-24 lg:pt-28 lg:pb-28">
+            <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+                {{-- Hero copy --}}
+                <div class="text-center lg:text-left">
+                    {{-- Status badge --}}
+                    <div class="inline-flex items-center gap-2 border-2 border-neo-text bg-neo-panel px-3 py-1.5 font-mono text-[10px] sm:text-xs font-bold tracking-widest text-neo-text shadow-neo-sm">
+                        <span class="relative flex h-2 w-2">
+                            <span class="absolute inline-flex h-full w-full animate-ping bg-neo-text opacity-60"></span>
+                            <span class="relative inline-flex h-2 w-2 bg-neo-text"></span>
+                        </span>
+                        [ {{ __('STATUS: READY FOR PRODUCTION') }} ]
+                    </div>
+
+                    {{-- Headline --}}
+                    <h1 class="mt-6 font-display-heavy text-6xl leading-[0.92] tracking-tight text-neo-text uppercase sm:text-7xl lg:text-8xl">
+                        <span class="block">{{ __('FULLSTACK') }}</span>
+                        <span class="block">
+                            <span class="inline-block bg-neo-text px-3 text-neo-bg shadow-neo-sm">{{ __('DEVELOPER') }}</span>
+                        </span>
+                        <span class="block">{{ __('& ENGINEER') }}</span>
+                    </h1>
+
+                    <p class="mt-6 font-mono text-xs tracking-widest text-neo-muted uppercase sm:text-sm">
+                        [ {{ $profile?->full_name ?? 'Andrés Pinto' }} ] — {{ $profile?->location ?? __('Chetumal, Quintana Roo, México') }}
+                    </p>
+
+                    <p class="mx-auto mt-4 max-w-xl text-base text-neo-muted lg:mx-0">
+                        {{ __('Building custom web solutions since 2008 across government, enterprise and fintech sectors.') }}
+                    </p>
+
+                    {{-- CTAs --}}
+                    <div class="mt-8 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
+                        <a href="{{ route('contact') }}" wire:navigate class="group inline-flex items-center gap-2 bg-neo-text px-6 py-3.5 font-mono text-xs font-bold uppercase tracking-widest text-neo-bg border-2 border-neo-text shadow-neo transition-all duration-150 hover:-translate-x-1 hover:-translate-y-1 active:translate-x-0 active:translate-y-0 active:shadow-none">
+                            {{ __('START A PROJECT') }}
+                            <span class="transition-transform duration-150 group-hover:translate-x-1">→</span>
+                        </a>
+                        <a href="{{ route('projects.index') }}" wire:navigate class="inline-flex items-center gap-2 border-2 border-neo-text px-6 py-3.5 font-mono text-xs font-bold uppercase tracking-widest text-neo-text shadow-neo-sm transition-all duration-150 hover:-translate-x-1 hover:-translate-y-1 hover:bg-neo-panel active:translate-x-0 active:translate-y-0 active:shadow-none">
+                            {{ __('VIEW PROJECTS') }}
+                        </a>
+                    </div>
+
+                    {{-- Mini stats --}}
+                    <div class="mx-auto mt-10 grid max-w-md grid-cols-3 gap-3 lg:mx-0">
+                        <div class="border-2 border-neo-text bg-neo-panel p-3 text-center shadow-neo-sm">
+                            <p class="font-display-heavy text-2xl text-neo-text">17+</p>
+                            <p class="mt-1 font-mono text-[9px] font-bold tracking-widest text-neo-muted uppercase">{{ __('YEARS') }}</p>
                         </div>
-                    @endif
+                        <div class="border-2 border-neo-text bg-neo-panel p-3 text-center shadow-neo-sm">
+                            <p class="font-display-heavy text-2xl text-neo-text">{{ $featuredProjects->count() }}+</p>
+                            <p class="mt-1 font-mono text-[9px] font-bold tracking-widest text-neo-muted uppercase">{{ __('PROJECTS') }}</p>
+                        </div>
+                        <div class="border-2 border-neo-text bg-neo-panel p-3 text-center shadow-neo-sm">
+                            <p class="font-display-heavy text-2xl text-neo-text">{{ $skills->flatten()->count() }}</p>
+                            <p class="mt-1 font-mono text-[9px] font-bold tracking-widest text-neo-muted uppercase">{{ __('SKILLS') }}</p>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="flex-1 text-center lg:text-left">
-                    <h1 class="font-display text-4xl sm:text-5xl font-bold text-neutral-900 dark:text-white tracking-tight">
-                        {{ $profile?->full_name ?? 'Andrés Pinto' }}
-                    </h1>
-                    <p class="mt-3 text-lg sm:text-xl text-neutral-600 dark:text-neutral-300 font-medium">
-                        {{ $profile?->title ?? __('Fullstack Developer & Software Engineer') }}
-                    </p>
-                    <p class="mt-2 text-sm text-neutral-500 dark:text-neutral-400 flex items-center justify-center lg:justify-start gap-1.5">
-                        <x-svg-icon name="location" class="w-4 h-4" />
-                        {{ $profile?->location ?? __('Chetumal, Quintana Roo, México') }}
-                    </p>
-                    @if ($profile?->availability)
-                        <p class="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-success-50 text-success-700 dark:bg-success-500/20 dark:text-success-400">
-                            <span class="w-1.5 h-1.5 rounded-full bg-success-500 dark:bg-success-400"></span>
-                            {{ $profile->availability }}
-                        </p>
-                    @endif
+                {{-- Pixel sprite terminal card --}}
+                <div class="relative mx-auto w-full max-w-md lg:mx-0 lg:justify-self-end">
+                    <span class="absolute -top-2 -left-2 z-10 flex h-8 w-8 items-center justify-center border-2 border-neo-text bg-neo-bg font-mono text-sm font-bold text-neo-text shadow-neo-sm">+</span>
+                    <span class="absolute -top-2 -right-2 z-10 h-8 w-8 border-2 border-neo-text bg-neo-bg shadow-neo-sm"></span>
+                    <span class="absolute -bottom-2 -left-2 z-10 h-8 w-8 border-2 border-neo-text bg-neo-bg shadow-neo-sm"></span>
 
-                    <div class="mt-6 flex flex-wrap items-center gap-3 justify-center lg:justify-start">
-                        <x-button variant="primary" size="lg" :href="route('projects.index')" icon="eye">
-                            {{ __('View Projects') }}
-                        </x-button>
-                        <x-button variant="secondary" size="lg" :href="route('contact')" icon="mail">
-                            {{ __('Contact Me') }}
-                        </x-button>
+                    <div class="relative border-2 border-neo-text bg-neo-panel shadow-neo-lg">
+                        {{-- Header bar --}}
+                        <div class="flex items-center justify-between border-b-2 border-neo-text bg-neo-panel-deep px-4 py-2.5">
+                            <span class="font-pixel text-[9px] tracking-widest text-neo-text">AP://SYS.INFO</span>
+                            <div class="flex gap-1.5">
+                                <span class="h-2 w-2 bg-neo-text"></span>
+                                <span class="h-2 w-2 bg-neo-line"></span>
+                                <span class="h-2 w-2 bg-neo-muted"></span>
+                            </div>
+                        </div>
+
+                        {{-- Sprite --}}
+                        <div class="relative flex items-center justify-center px-8 py-10">
+                            <div class="pointer-events-none absolute inset-0 opacity-10"
+                                 style="background-image: repeating-linear-gradient(0deg, #fff 0 1px, transparent 1px 4px);"></div>
+                            <div class="animate-float" aria-hidden="true">
+                                <div class="flex flex-col gap-[3px]">
+                                    @foreach ($sprite as $row)
+                                        <div class="flex gap-[3px]">
+                                            @foreach (str_split($row) as $cell)
+                                                <span class="h-2.5 w-2.5 sm:h-3 sm:w-3 {{ $spriteColors[$cell] ?? '' }}"></span>
+                                            @endforeach
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Footer bar --}}
+                        <div class="border-t-2 border-neo-text bg-neo-panel-deep px-4 py-3">
+                            <div class="flex items-center justify-between font-mono text-[10px] tracking-widest">
+                                <span class="text-neo-muted">SIG: AP#{{ $profile?->license_number ?? '000000' }}</span>
+                                <span class="flex items-center gap-1.5 text-neo-text">
+                                    <span class="inline-block h-2 w-2 animate-blink bg-neo-text"></span>
+                                    {{ __('OPEN FOR WORK') }}
+                                </span>
+                            </div>
+                            <div class="mt-3 h-8 w-full opacity-80"
+                                 style="background-image: repeating-linear-gradient(90deg, #fff 0 2px, transparent 2px 4px, #fff 4px 5px, transparent 5px 9px, #fff 9px 12px, transparent 12px 13px);"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    {{-- About / Bio --}}
-    @if ($profile?->bio)
-        <x-section :title="__('About Me')" :eyebrow="__('Who I am')">
-            <div class="max-w-3xl mx-auto">
-                <div class="text-neutral-700 dark:text-neutral-300 leading-relaxed text-base">
-                    {!! nl2br(e($profile->bio)) !!}
-                </div>
-
-                <dl class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    @if ($profile->location)
-                        <div class="flex items-center gap-3 p-4 rounded-lg bg-neutral-50 dark:bg-neutral-900">
-                            <x-svg-icon name="location" class="w-5 h-5 text-primary-500 shrink-0" />
-                            <div>
-                                <dt class="text-xs text-neutral-500 dark:text-neutral-400">{{ __('Location') }}</dt>
-                                <dd class="text-sm text-neutral-800 dark:text-neutral-200">{{ $profile->location }}</dd>
-                            </div>
-                        </div>
-                    @endif
-                    @if ($profile->email)
-                        <div class="flex items-center gap-3 p-4 rounded-lg bg-neutral-50 dark:bg-neutral-900">
-                            <x-svg-icon name="mail" class="w-5 h-5 text-primary-500 shrink-0" />
-                            <div>
-                                <dt class="text-xs text-neutral-500 dark:text-neutral-400">{{ __('Email') }}</dt>
-                                <dd class="text-sm text-neutral-800 dark:text-neutral-200">{{ $profile->email }}</dd>
-                            </div>
-                        </div>
-                    @endif
-                    @if ($profile->license_number)
-                        <div class="flex items-center gap-3 p-4 rounded-lg bg-neutral-50 dark:bg-neutral-900">
-                            <x-svg-icon name="graduation-cap" class="w-5 h-5 text-primary-500 shrink-0" />
-                            <div>
-                                <dt class="text-xs text-neutral-500 dark:text-neutral-400">{{ __('License') }}</dt>
-                                <dd class="text-sm text-neutral-800 dark:text-neutral-200">{{ $profile->license_number }}</dd>
-                            </div>
-                        </div>
-                    @endif
-                    @if ($profile->availability)
-                        <div class="flex items-center gap-3 p-4 rounded-lg bg-neutral-50 dark:bg-neutral-900">
-                            <x-svg-icon name="briefcase" class="w-5 h-5 text-primary-500 shrink-0" />
-                            <div>
-                                <dt class="text-xs text-neutral-500 dark:text-neutral-400">{{ __('Availability') }}</dt>
-                                <dd class="text-sm text-neutral-800 dark:text-neutral-200">{{ $profile->availability }}</dd>
-                            </div>
-                        </div>
-                    @endif
-                </dl>
-            </div>
-        </x-section>
-    @endif
-
-    {{-- Tech Stack --}}
-    @if ($skills->isNotEmpty())
-        <x-section :title="__('Tech Stack')" :eyebrow="__('Skills')">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                @foreach ($skills as $group => $groupSkills)
-                    <div>
-                        <h3 class="font-display font-semibold text-sm uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-4">{{ $group }}</h3>
-                        <ul class="space-y-3">
-                            @foreach ($groupSkills as $skill)
-                                <li class="flex items-center justify-between gap-3">
-                                    <span class="text-sm text-neutral-800 dark:text-neutral-200">{{ $skill->name }}</span>
-                                    <div class="flex items-center gap-0.5">
-                                        @for ($i = 1; $i <= 5; $i++)
-                                            <span class="w-2 h-2 rounded-full {{ $i <= $skill->level ? 'bg-primary-500 dark:bg-primary-400' : 'bg-neutral-200 dark:bg-neutral-700' }}"></span>
-                                        @endfor
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
+    {{-- ============================== MARQUEE DIVIDER ============================== --}}
+    <div class="overflow-hidden border-y-2 border-neo-text bg-neo-panel py-3" aria-hidden="true">
+        <div class="flex w-max animate-marquee">
+            <div class="flex shrink-0 items-center">
+                @foreach ($ticker as $tag)
+                    <span class="px-4 font-mono text-xs font-bold tracking-[0.2em] text-neo-text">[ {{ $tag }} ]</span>
                 @endforeach
             </div>
-        </x-section>
-    @endif
+            <div class="flex shrink-0 items-center">
+                @foreach ($ticker as $tag)
+                    <span class="px-4 font-mono text-xs font-bold tracking-[0.2em] text-neo-text">[ {{ $tag }} ]</span>
+                @endforeach
+            </div>
+        </div>
+    </div>
 
-    {{-- Experience --}}
-    @if ($experiences->isNotEmpty())
-        <x-section :title="__('Experience')" :eyebrow="__('Career')">
-            <div class="max-w-3xl mx-auto relative">
-                <div class="absolute left-4 sm:left-6 top-2 bottom-2 w-px bg-neutral-200 dark:bg-neutral-700"></div>
-                <div class="space-y-10">
-                    @foreach ($experiences as $exp)
-                        <div class="relative pl-12 sm:pl-16">
-                            <div class="absolute left-[10px] sm:left-[18px] top-1.5 w-3 h-3 rounded-full border-2 {{ $exp->is_current ? 'border-primary-500 bg-primary-500' : 'border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-900' }}"></div>
-                            <div>
-                                <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                                    <h3 class="font-display font-semibold text-lg text-neutral-900 dark:text-white">{{ $exp->position }}</h3>
-                                    <span class="text-xs text-neutral-500 dark:text-neutral-400">{{ $exp->started_at->format('M Y') }} — {{ $exp->is_current ? __('Present') : $exp->ended_at?->format('M Y') }}</span>
+    {{-- ============================== PROJECTS GRID ============================== --}}
+    <section class="relative mx-auto max-w-7xl scroll-mt-20 px-4 sm:px-6 lg:px-8 py-16 sm:py-24" id="projects">
+        <div class="flex flex-col items-start gap-6 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+                <p class="font-mono text-xs font-bold tracking-[0.3em] text-neo-muted uppercase">// {{ __('PORTFOLIO') }}</p>
+                <h2 class="mt-3 font-display-heavy text-4xl tracking-tight text-neo-text uppercase sm:text-5xl">
+                    {{ __('FEATURED WORK') }}
+                </h2>
+                <p class="mt-3 max-w-xl text-neo-muted">{{ __('A selection of my best projects across government, enterprise and fintech.') }}</p>
+            </div>
+            <a href="{{ route('projects.index') }}" wire:navigate class="inline-flex shrink-0 items-center gap-2 border-2 border-neo-text px-5 py-3 font-mono text-xs font-bold uppercase tracking-widest text-neo-text shadow-neo-sm transition-all duration-150 hover:-translate-x-1 hover:-translate-y-1 hover:bg-neo-text hover:text-neo-bg active:translate-x-0 active:translate-y-0 active:shadow-none">
+                {{ __('VIEW ALL PROJECTS') }} →
+            </a>
+        </div>
+
+        @if ($featuredProjects->isNotEmpty())
+            <div class="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                @foreach ($featuredProjects as $project)
+                    <a href="{{ route('projects.show', $project) }}" wire:navigate class="group relative flex h-full flex-col border-2 border-neo-text bg-neo-panel shadow-neo transition-all duration-150 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-neo-lg active:translate-x-0 active:translate-y-0 active:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neo-text">
+                        {{-- Corner index chip --}}
+                        <span class="absolute -top-2 -left-2 z-10 flex h-7 w-7 items-center justify-center border-2 border-neo-text bg-neo-bg font-mono text-[10px] font-bold text-neo-text shadow-neo-sm transition-all duration-150 group-hover:-translate-x-0.5 group-hover:-translate-y-0.5">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+
+                        {{-- Media --}}
+                        <div class="relative h-48 overflow-hidden border-b-2 border-neo-text bg-neo-panel-deep">
+                            @if ($project->image_url)
+                                <img src="{{ asset($project->image_url) }}" alt="{{ $project->title }}" class="h-full w-full object-cover grayscale transition-all duration-300 group-hover:scale-105 group-hover:grayscale-0" loading="lazy" decoding="async">
+                            @else
+                                <div class="flex h-full w-full items-center justify-center">
+                                    <div class="grid grid-cols-4 gap-2 opacity-70" aria-hidden="true">
+                                        @for ($i = 0; $i < 4; $i++)
+                                            <span class="h-3 w-3 bg-neo-text"></span>
+                                        @endfor
+                                    </div>
                                 </div>
-                                <p class="text-sm font-medium text-primary-600 dark:text-primary-400">{{ $exp->company }}</p>
-                                @if ($exp->description)
-                                    <p class="mt-2 text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">{{ $exp->description }}</p>
+                            @endif
+                            <span class="absolute top-2 right-2 border-2 border-neo-text bg-neo-bg px-2 py-0.5 font-mono text-[9px] font-bold tracking-widest text-neo-text">LV.{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                        </div>
+
+                        {{-- Body --}}
+                        <div class="flex flex-1 flex-col p-5">
+                            <div class="flex items-center justify-between gap-2">
+                                @if ($project->sector)
+                                    <span class="border-2 border-neo-text bg-neo-bg px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-widest text-neo-text">{{ $project->sector }}</span>
                                 @endif
+                                <span class="font-pixel text-[8px] text-neo-muted">// PROJECT</span>
                             </div>
+
+                            <h3 class="mt-3 font-display text-xl font-bold text-neo-text group-hover:underline">{{ $project->title }}</h3>
+                            <p class="mt-2 text-sm text-neo-muted line-clamp-3">{{ $project->excerpt }}</p>
+
+                            {{-- Tech power-ups --}}
+                            @if ($project->skills->isNotEmpty())
+                                <div class="mt-4 border-t-2 border-dashed border-neo-muted/40 pt-4">
+                                    <p class="font-mono text-[9px] font-bold uppercase tracking-widest text-neo-muted">{{ __('POWER-UPS') }}</p>
+                                    <div class="mt-2 flex flex-wrap gap-1.5">
+                                        @foreach ($project->skills as $skill)
+                                            <span class="inline-flex items-center gap-1 border-2 border-neo-text bg-neo-bg px-2 py-0.5 font-mono text-[10px] font-bold text-neo-text transition-transform duration-150 hover:-translate-y-0.5">
+                                                <span class="text-neo-muted">+</span>{{ $skill->name }}
+                                            </span>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
+
+                            <span class="mt-5 inline-flex items-center gap-2 self-start font-mono text-[10px] font-bold uppercase tracking-widest text-neo-muted transition-colors group-hover:text-neo-text">
+                                {{ __('VIEW') }}
+                                <span class="inline-block transition-transform duration-150 group-hover:translate-x-1">►</span>
+                            </span>
+                        </div>
+                    </a>
+                @endforeach
+            </div>
+        @else
+            <div class="mt-12 border-2 border-neo-text bg-neo-panel p-10 text-center shadow-neo">
+                <p class="font-mono text-xs font-bold uppercase tracking-widest text-neo-muted">{{ __('EMPTY WORK LOG') }}</p>
+            </div>
+        @endif
+    </section>
+
+    {{-- ============================== STATS & SKILLS (ATTRIBUTES) ============================== --}}
+    <section class="relative scroll-mt-20 border-t-2 border-neo-text bg-neo-panel-deep py-16 sm:py-24" id="attributes">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <p class="font-mono text-xs font-bold tracking-[0.3em] text-neo-muted uppercase">// {{ __('ATTRIBUTES') }}</p>
+                <h2 class="mt-3 font-display-heavy text-4xl tracking-tight text-neo-text uppercase sm:text-5xl">{{ __('TECH & SKILLS') }}</h2>
+                <p class="mx-auto mt-3 max-w-xl text-neo-muted">{{ __('My arsenal, sharpened over 17+ years of production deployments.') }}</p>
+            </div>
+
+            {{-- Stat blocks --}}
+            <div class="mx-auto mt-10 grid max-w-4xl grid-cols-2 gap-4 sm:grid-cols-4">
+                <div class="border-2 border-neo-text bg-neo-panel p-4 text-center shadow-neo-sm">
+                    <p class="font-display-heavy text-3xl text-neo-text">17+</p>
+                    <p class="mt-1 font-mono text-[9px] font-bold tracking-widest text-neo-muted uppercase">{{ __('YEARS') }}</p>
+                </div>
+                <div class="border-2 border-neo-text bg-neo-panel p-4 text-center shadow-neo-sm">
+                    <p class="font-display-heavy text-3xl text-neo-text">{{ $featuredProjects->count() }}+</p>
+                    <p class="mt-1 font-mono text-[9px] font-bold tracking-widest text-neo-muted uppercase">{{ __('PROJECTS') }}</p>
+                </div>
+                <div class="border-2 border-neo-text bg-neo-panel p-4 text-center shadow-neo-sm">
+                    <p class="font-display-heavy text-3xl text-neo-text">{{ $skills->flatten()->count() }}</p>
+                    <p class="mt-1 font-mono text-[9px] font-bold tracking-widest text-neo-muted uppercase">{{ __('SKILLS') }}</p>
+                </div>
+                <div class="border-2 border-neo-text bg-neo-panel p-4 text-center shadow-neo-sm">
+                    <p class="font-mono text-sm font-bold leading-tight text-neo-text">SIG<br>{{ $profile?->license_number ?? '000000' }}</p>
+                    <p class="mt-1 font-mono text-[9px] font-bold tracking-widest text-neo-muted uppercase">{{ __('LICENSE') }}</p>
+                </div>
+            </div>
+
+            {{-- Skill panels --}}
+            @if ($skills->isNotEmpty())
+                <div class="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-3">
+                    @foreach ($skills as $group => $groupSkills)
+                        <div class="relative border-2 border-neo-line bg-neo-bg shadow-neo-panel transition-all duration-150 hover:-translate-x-1 hover:-translate-y-1">
+                            <div class="flex items-center justify-between border-b-2 border-neo-line bg-neo-panel px-4 py-2.5">
+                                <h3 class="font-mono text-[10px] font-bold uppercase tracking-widest text-neo-text">▸ {{ $group }}</h3>
+                                <span class="font-pixel text-[8px] text-neo-muted">{{ str_pad($groupSkills->count(), 2, '0', STR_PAD_LEFT) }}</span>
+                            </div>
+                            <ul class="space-y-4 p-5">
+                                @foreach ($groupSkills as $skill)
+                                    <li>
+                                        <div class="flex items-center justify-between gap-3">
+                                            <span class="text-sm font-medium text-neo-text">{{ $skill->name }}</span>
+                                            <span class="border-2 border-neo-line px-1.5 py-0.5 font-mono text-[9px] font-bold text-neo-text">LV.{{ $skill->level }}</span>
+                                        </div>
+                                        <div class="mt-2 h-3.5 border-2 border-neo-line bg-neo-panel">
+                                            <div class="h-full bg-neo-text transition-all duration-500" style="width: {{ min($skill->level * 20, 100) }}%;"></div>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
                         </div>
                     @endforeach
                 </div>
-            </div>
-        </x-section>
-    @endif
-
-    {{-- Featured Projects --}}
-    @if ($featuredProjects->isNotEmpty())
-        <x-section :title="__('Featured Projects')" :eyebrow="__('Portfolio')">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                @foreach ($featuredProjects as $project)
-                    <x-card hover class="flex flex-col h-full">
-                        @if ($project->image_url)
-                            <div class="-mx-6 -mt-6 mb-4 overflow-hidden rounded-t-xl">
-                                <img src="{{ asset($project->image_url) }}" alt="{{ $project->title }}" class="w-full h-48 object-cover" loading="lazy" decoding="async">
-                            </div>
-                        @else
-                            <div class="-mx-6 -mt-6 mb-4 h-48 rounded-t-xl bg-gradient-to-br from-primary-100 to-accent-100 dark:from-primary-900/30 dark:to-accent-900/30 flex items-center justify-center">
-                                <x-svg-icon name="code" class="w-10 h-10 text-primary-400 dark:text-primary-600" />
-                            </div>
-                        @endif
-
-                        <div class="flex-1">
-                            <div class="flex items-center gap-2 mb-2">
-                                @if ($project->sector)
-                                    <x-badge variant="primary">{{ $project->sector }}</x-badge>
-                                @endif
-                                <x-badge variant="accent">{{ __('Featured') }}</x-badge>
-                            </div>
-                            <h3 class="font-display font-semibold text-lg text-neutral-900 dark:text-white mb-2">{{ $project->title }}</h3>
-                            <p class="text-sm text-neutral-600 dark:text-neutral-300 line-clamp-3">{{ $project->excerpt }}</p>
-                        </div>
-
-                        <div class="mt-4 pt-4 border-t border-neutral-100 dark:border-neutral-800">
-                            <x-button variant="ghost" size="sm" :href="route('projects.show', $project)" icon="arrow-right">
-                                {{ __('View Project') }}
-                            </x-button>
-                        </div>
-                    </x-card>
-                @endforeach
-            </div>
-
-            @if (\App\Models\Project::where('is_visible', true)->count() > $featuredProjects->count())
-                <div class="mt-8 text-center">
-                    <x-button variant="secondary" :href="route('projects.index')">
-                        {{ __('View All Projects') }}
-                    </x-button>
-                </div>
             @endif
-        </x-section>
-    @endif
+        </div>
+    </section>
 
-    {{-- Education --}}
-    @if ($educations->isNotEmpty())
-        <x-section :title="__('Education')" :eyebrow="__('Academic')">
-            <div class="max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
-                @foreach ($educations as $edu)
-                    <x-card>
-                        <div class="flex items-start gap-3">
-                            <div class="p-2 bg-primary-50 dark:bg-primary-900/30 rounded-lg shrink-0">
-                                <x-svg-icon name="graduation-cap" class="w-5 h-5 text-primary-600 dark:text-primary-400" />
-                            </div>
-                            <div>
-                                <h3 class="font-display font-semibold text-neutral-900 dark:text-white">{{ $edu->degree }}</h3>
-                                <p class="text-sm text-primary-600 dark:text-primary-400">{{ $edu->institution }}</p>
-                                <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-1">{{ $edu->started_at }} — {{ $edu->ended_at ?? __('Present') }}</p>
-                                @if ($edu->license_number)
-                                    <p class="text-xs text-neutral-400 dark:text-neutral-500 mt-1">{{ __('License') }}: {{ $edu->license_number }}</p>
-                                @endif
-                            </div>
-                        </div>
-                    </x-card>
-                @endforeach
-            </div>
-        </x-section>
-    @endif
+    {{-- ============================== CONTACT CTA ============================== --}}
+    <section class="relative mx-auto max-w-7xl scroll-mt-20 px-4 sm:px-6 lg:px-8 py-16 sm:py-24" id="contact">
+        <div class="relative overflow-hidden border-2 border-neo-text bg-neo-panel p-8 text-center shadow-neo-lg sm:p-14">
+            <span class="absolute top-3 left-3 h-5 w-5 border-t-4 border-l-4 border-neo-text"></span>
+            <span class="absolute top-3 right-3 h-5 w-5 border-t-4 border-r-4 border-neo-text"></span>
+            <span class="absolute bottom-3 left-3 h-5 w-5 border-b-4 border-l-4 border-neo-text"></span>
+            <span class="absolute bottom-3 right-3 h-5 w-5 border-b-4 border-r-4 border-neo-text"></span>
 
-    {{-- Languages --}}
-    @if ($languages->isNotEmpty())
-        <x-section :title="__('Languages')" :eyebrow="__('Communication')">
-            <div class="flex flex-wrap justify-center gap-4">
-                @foreach ($languages as $lang)
-                    <x-card class="text-center px-8 py-4">
-                        <span class="font-display font-semibold text-lg text-neutral-900 dark:text-white">{{ $lang->language }}</span>
-                        <span class="block mt-1 text-sm text-neutral-500 dark:text-neutral-400">{{ $lang->proficiency }}</span>
-                    </x-card>
-                @endforeach
+            <p class="font-mono text-xs font-bold tracking-[0.3em] text-neo-muted uppercase">// {{ __('CONTACT') }}</p>
+            <h2 class="mx-auto mt-4 max-w-3xl font-display-heavy text-4xl tracking-tight text-neo-text uppercase sm:text-5xl">
+                {{ __('READY TO BUILD SOMETHING?') }}
+            </h2>
+            <p class="mx-auto mt-4 max-w-2xl text-neo-muted">{{ __('Let\'s turn your idea into production-ready software. No bureaucracy, just clean engineering.') }}</p>
+
+            <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+                <a href="{{ route('contact') }}" wire:navigate class="group inline-flex items-center gap-2 bg-neo-text px-8 py-4 font-mono text-xs font-bold uppercase tracking-widest text-neo-bg border-2 border-neo-text shadow-neo transition-all duration-150 hover:-translate-x-1 hover:-translate-y-1 active:translate-x-0 active:translate-y-0 active:shadow-none">
+                    {{ __('START A PROJECT') }}
+                    <span class="transition-transform duration-150 group-hover:translate-x-1">→</span>
+                </a>
+                @if ($profile?->email)
+                    <a href="mailto:{{ $profile->email }}" class="inline-flex items-center gap-2 border-2 border-neo-text px-8 py-4 font-mono text-xs font-bold uppercase tracking-widest text-neo-text shadow-neo-sm transition-all duration-150 hover:-translate-x-1 hover:-translate-y-1 hover:bg-neo-panel-deep active:translate-x-0 active:translate-y-0 active:shadow-none">
+                        {{ __('SAY HELLO') }} ✉
+                    </a>
+                @endif
             </div>
-        </x-section>
-    @endif
+        </div>
+    </section>
 </div>

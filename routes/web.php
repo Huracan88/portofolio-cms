@@ -4,8 +4,6 @@ use App\Livewire\Pages\Blog\Index as BlogIndex;
 use App\Livewire\Pages\Blog\Show as BlogShow;
 use App\Livewire\Pages\Contact;
 use App\Livewire\Pages\Home;
-use App\Livewire\Pages\HomeArcade;
-use App\Livewire\Pages\HomeNeo;
 use App\Livewire\Pages\Projects\Index as ProjectsIndex;
 use App\Livewire\Pages\Projects\Show as ProjectsShow;
 use App\Models\Post;
@@ -13,8 +11,6 @@ use App\Models\Project;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', Home::class)->name('home');
-Route::get('/home-2', HomeArcade::class)->name('home-2');
-Route::get('/home-3', HomeNeo::class)->name('home-3');
 Route::get('/projects', ProjectsIndex::class)->name('projects.index');
 Route::get('/projects/{project:slug}', ProjectsShow::class)->name('projects.show');
 Route::get('/blog', BlogIndex::class)->name('blog.index');

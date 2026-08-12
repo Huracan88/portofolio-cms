@@ -22,7 +22,7 @@ class Home extends Component
             'profile' => $profile,
             'skills' => Skill::where('is_visible', true)->orderBy('sort_order')->get()->groupBy('group'),
             'experiences' => Experience::orderBy('sort_order')->get(),
-            'featuredProjects' => Project::where('is_visible', true)->where('is_featured', true)->orderBy('sort_order')->get(),
+            'featuredProjects' => Project::with('skills')->where('is_visible', true)->where('is_featured', true)->orderBy('sort_order')->get(),
             'educations' => Education::orderBy('sort_order')->get(),
             'languages' => Language::orderBy('sort_order')->get(),
         ])->title('Andrés Pinto — Fullstack Developer');

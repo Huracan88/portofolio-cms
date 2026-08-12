@@ -11,13 +11,11 @@
     };
 @endphp
 
-<section {{ $attributes->merge(['class' => 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16']) }}>
+<section {{ $attributes->merge(['class' => 'relative mx-auto max-w-7xl scroll-mt-20 px-4 sm:px-6 lg:px-8 py-16 sm:py-24']) }}>
     @if ($title || $eyebrow)
-        <div class="mb-8 sm:mb-12 {{ $alignClasses }}">
+        <div class="mb-10 sm:mb-14 {{ $alignClasses }}">
             @if ($eyebrow)
-                <p class="text-sm font-medium text-primary-600 dark:text-primary-400 uppercase tracking-wider mb-2">
-                    {{ $eyebrow }}
-                </p>
+                <p class="font-mono text-xs font-bold tracking-[0.3em] text-neo-muted uppercase mb-3">// {{ $eyebrow }}</p>
             @endif
             @if ($title)
                 <x-heading level="2">{{ $title }}</x-heading>

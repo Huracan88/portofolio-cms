@@ -8,20 +8,20 @@
 ])
 
 @php
-    $baseClasses = 'inline-flex items-center justify-center font-medium rounded-md transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-neutral-950 disabled:opacity-50 disabled:cursor-not-allowed';
+    $baseClasses = 'inline-flex items-center justify-center font-mono text-xs font-bold uppercase tracking-widest border-2 transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neo-text focus-visible:ring-offset-2 focus-visible:ring-offset-neo-bg disabled:opacity-40 disabled:cursor-not-allowed';
 
     $variantClasses = match ($variant) {
-        'primary' => 'bg-primary-600 text-white hover:bg-primary-700 dark:bg-primary-600 dark:hover:bg-primary-500',
-        'secondary' => 'bg-neutral-100 text-neutral-800 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-700',
-        'ghost' => 'bg-transparent text-neutral-700 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800',
-        default => 'bg-primary-600 text-white hover:bg-primary-700',
+        'primary' => 'bg-neo-text text-neo-bg border-neo-text shadow-neo hover:-translate-x-1 hover:-translate-y-1 hover:shadow-neo-lg active:translate-x-0 active:translate-y-0 active:shadow-none',
+        'secondary' => 'bg-neo-panel text-neo-text border-neo-text shadow-neo-sm hover:-translate-x-1 hover:-translate-y-1 hover:bg-neo-panel-deep hover:shadow-neo active:translate-x-0 active:translate-y-0 active:shadow-none',
+        'ghost' => 'bg-transparent text-neo-muted border-neo-line hover:bg-neo-panel hover:text-neo-text hover:border-neo-text hover:shadow-neo-sm',
+        default => 'bg-neo-text text-neo-bg border-neo-text shadow-neo hover:-translate-x-1 hover:-translate-y-1 hover:shadow-neo-lg active:translate-x-0 active:translate-y-0 active:shadow-none',
     };
 
     $sizeClasses = match ($size) {
-        'sm' => 'text-sm px-3 py-1.5 gap-1.5',
-        'md' => 'text-sm px-4 py-2 gap-2',
-        'lg' => 'text-base px-6 py-2.5 gap-2',
-        default => 'text-sm px-4 py-2 gap-2',
+        'sm' => 'px-4 py-2 gap-1.5',
+        'md' => 'px-5 py-3 gap-2',
+        'lg' => 'px-6 py-3.5 gap-2',
+        default => 'px-5 py-3 gap-2',
     };
 
     $classes = "$baseClasses $variantClasses $sizeClasses";
@@ -32,6 +32,7 @@
         href="{{ $href }}"
         {{ $attributes->merge(['class' => $classes]) }}
         @if ($target) target="{{ $target }}" @endif
+        @if ($target === '_blank') rel="noopener noreferrer" @endif
         @if (str_starts_with($href, url('/'))) wire:navigate @endif
     >
         @if ($icon)

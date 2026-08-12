@@ -10,10 +10,10 @@
 
 <div>
     @if ($label)
-        <label for="{{ $name }}" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+        <label for="{{ $name }}" class="block mb-1.5 font-mono text-[10px] font-bold uppercase tracking-widest text-neo-muted">
             {{ $label }}
             @if ($required)
-                <span class="text-danger-500" aria-hidden="true">*</span>
+                <span class="text-neo-text" aria-hidden="true">*</span>
             @endif
         </label>
     @endif
@@ -24,10 +24,10 @@
         rows="{{ $rows }}"
         placeholder="{{ $placeholder }}"
         @if ($required) required @endif
-        {{ $attributes->merge(['class' => 'block w-full rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 text-sm text-neutral-900 dark:text-neutral-100 placeholder-neutral-400 dark:placeholder-neutral-500 shadow-sm transition-colors duration-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 disabled:opacity-50 disabled:cursor-not-allowed resize-none']) }}
+        {{ $attributes->merge(['class' => 'block w-full border-2 border-neo-line bg-neo-panel px-3 py-2.5 text-sm text-neo-text placeholder-neo-muted transition-colors duration-150 focus:border-neo-text focus:ring-2 focus:ring-neo-text/30 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed resize-none']) }}
     >{{ old($name, $value ?? '') }}</textarea>
 
     @if ($error)
-        <p class="mt-1.5 text-sm text-danger-500">{{ $error }}</p>
+        <p class="mt-1.5 font-mono text-[10px] font-bold uppercase tracking-widest text-neo-text">{{ $error }}</p>
     @endif
 </div>

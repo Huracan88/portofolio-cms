@@ -19,16 +19,7 @@
     --font-display-heavy: 'Archivo Black', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
         'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
-    /* ── Arcade: 32-bit neon (home-2) ── */
-    --color-arcade-bg: #0a0f1d;
-    --color-arcade-panel: #101731;
-    --color-arcade-panel-deep: #0b1025;
-    --color-arcade-cyan: #00f0ff;
-    --color-arcade-electric: #3b82f6;
-    --color-arcade-text: #f8fafc;
-    --color-arcade-muted: #94a3b8;
-
-    /* ── Neo: Pixel-Pop Monochrome / Neo-Brutalist (home-3) ── */
+    /* ── Neo: Pixel-Pop Monochrome / Neo-Brutalist ── */
     --color-neo-bg: #121212;
     --color-neo-panel: #1e1e1e;
     --color-neo-panel-deep: #18181b;
@@ -155,17 +146,17 @@ html {
 }
 
 body {
-    @apply bg-white text-neutral-800 antialiased dark:bg-neutral-950 dark:text-neutral-200;
+    @apply bg-neo-bg text-neo-text antialiased;
 }
 
 /* Selection */
 ::selection {
-    @apply bg-primary-200 text-primary-900 dark:bg-primary-800 dark:text-primary-100;
+    @apply bg-neo-text text-neo-bg;
 }
 
 /* Focus visible ring */
 :focus-visible {
-    @apply outline-none ring-2 ring-primary-500 ring-offset-2 ring-offset-white dark:ring-offset-neutral-950;
+    @apply outline-none ring-2 ring-neo-text ring-offset-2 ring-offset-neo-bg;
 }
 
 /* Scrollbar (subtle) */
@@ -174,13 +165,13 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-    @apply bg-neutral-100 dark:bg-neutral-900;
+    @apply bg-neo-panel;
 }
 
 ::-webkit-scrollbar-thumb {
-    @apply bg-neutral-300 dark:bg-neutral-700 rounded-full;
+    @apply bg-neo-muted/40;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    @apply bg-neutral-400 dark:bg-neutral-600;
+    @apply bg-neo-muted/70;
 }

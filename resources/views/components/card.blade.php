@@ -4,13 +4,13 @@
 ])
 
 @php
-    $baseClasses = 'bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl';
+    $baseClasses = 'border-2 border-neo-text bg-neo-panel';
 
     $hoverClasses = $hover
-        ? 'transition-shadow duration-200 hover:shadow-lg dark:hover:shadow-neutral-900/50 hover:border-neutral-300 dark:hover:border-neutral-700'
-        : '';
+        ? 'shadow-neo transition-all duration-150 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-neo-lg active:translate-x-0 active:translate-y-0 active:shadow-none'
+        : 'shadow-neo-sm';
 
-    $paddingClasses = $padded ? 'p-6' : '';
+    $paddingClasses = $padded ? 'p-5 sm:p-6' : '';
 
     $classes = "$baseClasses $hoverClasses $paddingClasses";
 @endphp

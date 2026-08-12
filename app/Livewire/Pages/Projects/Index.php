@@ -22,6 +22,11 @@ class Index extends Component
         $this->resetPage();
     }
 
+    public function paginationView(): string
+    {
+        return 'components.pagination';
+    }
+
     public function render()
     {
         $query = Project::where('is_visible', true)->orderBy('sort_order');
