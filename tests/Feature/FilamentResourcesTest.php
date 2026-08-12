@@ -6,6 +6,7 @@ use App\Filament\Resources\ExperienceResource;
 use App\Filament\Resources\PostResource;
 use App\Filament\Resources\ProjectResource;
 use App\Filament\Resources\SkillResource;
+use App\Filament\Resources\SkillResource\Pages\CreateSkill;
 use App\Filament\Resources\TagResource;
 use App\Models\Category;
 use App\Models\ContactMessage;
@@ -17,6 +18,7 @@ use App\Models\Tag;
 use App\Models\User;
 use Database\Seeders\RoleAndPermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Livewire;
 use Spatie\Permission\PermissionRegistrar;
 
 uses(RefreshDatabase::class);
@@ -55,6 +57,32 @@ test('admin can render every resource index page', function (string $url) {
 test('skill resource exists and has correct model', function () {
     $resource = app(SkillResource::class);
     expect($resource::getModel())->toBe(Skill::class);
+});
+
+test('skill resource form includes the group field', function () {
+    Livewire::actingAs($this->admin)
+        ->test(CreateSkill::class)
+        ->assertFormFieldExists('group');
+});
+
+test('skill group is persisted when creating a skill via the resource form', function () {
+    Livewire::actingAs($this->admin)
+        ->test(CreateSkill::class)
+        ->fillForm([
+            'name_en' => 'GraphQL',
+            'name_es' => 'GraphQL',
+            'level' => 4,
+            'sort_order' => 50,
+            'is_visible' => true,
+            'group' => 'devops',
+        ])
+        ->call('create')
+        ->assertHasNoFormErrors();
+
+    $skill = Skill::where('name_en', 'GraphQL')->first();
+
+    expect($skill)->not->toBeNull();
+    expect($skill->group)->toBe('devops');
 });
 
 test('post resource exists and has correct model', function () {

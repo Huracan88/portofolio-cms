@@ -17,6 +17,8 @@ class SkillResource extends Resource
 {
     protected static ?string $model = Skill::class;
 
+    private const GROUP_OPTIONS = ['backend', 'frontend', 'mobile', 'database', 'devops', 'tools'];
+
     public static function getNavigationIcon(): string
     {
         return 'heroicon-o-star';
@@ -49,6 +51,9 @@ class SkillResource extends Resource
                         TextInput::make('sort_order')
                             ->numeric()
                             ->default(0),
+                        TextInput::make('group')
+                            ->datalist(self::GROUP_OPTIONS)
+                            ->placeholder(__('None')),
                         Toggle::make('is_visible')
                             ->default(true),
                     ]),
@@ -62,11 +67,14 @@ class SkillResource extends Resource
                 Tables\Columns\TextColumn::make('name_en')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('name_es')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('level')->sortable(),
+                Tables\Columns\TextColumn::make('group')->searchable()->sortable(),
                 Tables\Columns\IconColumn::make('is_visible')->boolean()->sortable(),
                 Tables\Columns\TextColumn::make('sort_order')->sortable(),
             ])
             ->filters([
                 Tables\Filters\TernaryFilter::make('is_visible'),
+                Tables\Filters\SelectFilter::make('group')
+                    ->options(array_combine(self::GROUP_OPTIONS, self::GROUP_OPTIONS)),
             ])
             ->actions([
                 Actions\EditAction::make(),
