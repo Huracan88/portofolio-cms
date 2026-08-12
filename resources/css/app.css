@@ -1,4 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap');
 @import 'tailwindcss';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
@@ -12,6 +15,32 @@
         'Segoe UI Symbol', 'Noto Color Emoji';
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-pixel: 'Press Start 2P', ui-monospace, monospace;
+    --font-display-heavy: 'Archivo Black', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+        'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* ── Arcade: 32-bit neon (home-2) ── */
+    --color-arcade-bg: #0a0f1d;
+    --color-arcade-panel: #101731;
+    --color-arcade-panel-deep: #0b1025;
+    --color-arcade-cyan: #00f0ff;
+    --color-arcade-electric: #3b82f6;
+    --color-arcade-text: #f8fafc;
+    --color-arcade-muted: #94a3b8;
+
+    /* ── Neo: Pixel-Pop Monochrome / Neo-Brutalist (home-3) ── */
+    --color-neo-bg: #121212;
+    --color-neo-panel: #1e1e1e;
+    --color-neo-panel-deep: #18181b;
+    --color-neo-text: #ffffff;
+    --color-neo-muted: #a3a3a3;
+    --color-neo-line: #e5e5e5;
+    --shadow-neo-sm: 3px 3px 0 0 #e5e5e5;
+    --shadow-neo: 5px 5px 0 0 #ffffff;
+    --shadow-neo-lg: 8px 8px 0 0 #ffffff;
+    --shadow-neo-panel: 4px 4px 0 0 #e5e5e5;
+    --animate-marquee: marquee 26s linear infinite;
+    --animate-pop: pop 0.25s ease-in-out;
 
     /* ── Primary: Deep Professional Blue ── */
     --color-primary-50: oklch(97% 0.014 254.1);
@@ -68,6 +97,10 @@
     --radius-2xl: 1.25rem;
     --radius-full: 9999px;
 
+    /* ── Animations ── */
+    --animate-float: float 4s ease-in-out infinite;
+    --animate-blink: blink 1s steps(2, start) infinite;
+
     /* ── Shadows ── */
     --shadow-sm: 0 1px 2px 0 oklch(0% 0 0 / 0.05);
     --shadow-md: 0 4px 6px -1px oklch(0% 0 0 / 0.07), 0 2px 4px -2px oklch(0% 0 0 / 0.05);
@@ -78,6 +111,47 @@
 /* ── Base Styles ── */
 html {
     scroll-behavior: smooth;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
+
+@keyframes marquee {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@keyframes pop {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.96);
+    }
+}
+
+/* Prevent Alpine x-show flash before hydration */
+[x-cloak] {
+    display: none !important;
 }
 
 body {

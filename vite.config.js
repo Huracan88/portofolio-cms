@@ -15,6 +15,12 @@ export default defineConfig({
                 bunny('Space Grotesk', {
                     weights: [400, 500, 600, 700],
                 }),
+                bunny('Archivo Black', {
+                    weights: [400],
+                }),
+                bunny('Press Start 2P', {
+                    weights: [400],
+                }),
             ],
         }),
         tailwindcss(),
