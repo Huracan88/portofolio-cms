@@ -1,7 +1,7 @@
 ---
 description: Diseñador UI/UX del portafolio. Define el sistema de diseño (Tailwind v4), componentes visuales, temas y experiencia de usuario. Puede editar vistas y estilos.
 mode: subagent
-model: opencode/mimo-v2.5-free
+model: opencode-go/mimo-v2.5-pro
 permission:
   edit: allow
   bash: allow

@@ -1,7 +1,7 @@
 ---
 description: Revisor de calidad. Audita código, corre tests, Pint, Larastan y valida el cumplimiento del plan y la UX. No edita archivos.
 mode: subagent
-model: opencode/mimo-v2.5-free
+model: opencode-go/hy3
 permission:
   edit: deny
   bash: allow

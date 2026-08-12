@@ -1,7 +1,7 @@
 ---
 description: Desarrollador principal. Implementa código Laravel 13, Livewire 4, Filament 5 y Tailwind v4 siguiendo el plan y las reglas de AGENTS.md.
 mode: subagent
-model: opencode/deepseek-v4-flash-free
+model: opencode-go/deepseek-v4-flash
 permission:
   edit: allow
   bash: allow
