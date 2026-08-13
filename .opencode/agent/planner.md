@@ -1,7 +1,7 @@
 ---
 description: Planeador del proyecto. Descompone objetivos en tareas, define arquitectura, esquema de datos y aceptación de cada fase. Solo lectura.
 mode: subagent
-model: opencode/nemotron-3-ultra-free
+model: opencode-go/kimi-k3
 permission:
   edit: deny
   bash: allow

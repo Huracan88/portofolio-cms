@@ -16,10 +16,10 @@ Proyecto: **Portafolio + CMS** de desarrollador fullstack senior (10+ años, sta
 
 | Agente | Rol | Modelo (Zen) |
 | --- | --- | --- |
-| `planner` | Descompone tareas, arquitectura, DoD | `opencode/nemotron-3-ultra-free` |
-| `designer` | Sistema de diseño Tailwind v4, UI pública, i18n | `opencode-go/mimo-v2.5-pro` |
+| `planner` | Descompone tareas, arquitectura, DoD | `opencode-go/kimi-k3` |
+| `designer` | Sistema de diseño Tailwind v4, UI pública, i18n | `opencode-go/hy3` |
 | `developer` | Implementa código | `opencode-go/deepseek-v4-flash` |
-| `reviewer` | QA gate: audita, corre tests, aprueba | `opencode-go/hy3` |
+| `reviewer` | QA gate: audita, corre tests, aprueba | `opencode-go/glm-5.2` |
 
 ## Flujo de trabajo por tarea
 
