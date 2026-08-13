@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ProjectResource\Pages;
 use App\Models\Project;
 use Filament\Actions;
+use Filament\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
@@ -14,8 +15,10 @@ use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Support\Enums\Width;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Contracts\View\View;
 
 class ProjectResource extends Resource
 {
@@ -45,7 +48,11 @@ class ProjectResource extends Resource
                     ]),
                 Section::make(__('Media & Links'))
                     ->schema([
-                        TextInput::make('image_url')->url()->maxLength(500),
+                        TextInput::make('image_url')
+                            ->url()
+                            ->maxLength(500)
+                            ->hint(__('Landscape recommended'))
+                            ->suffixAction(self::mediaPickerAction()),
                         TextInput::make('project_url')->url()->maxLength(500),
                         TextInput::make('repo_url')->url()->maxLength(500),
                     ]),
@@ -100,5 +107,17 @@ class ProjectResource extends Resource
             'create' => Pages\CreateProject::route('/create'),
             'edit' => Pages\EditProject::route('/{record}/edit'),
         ];
+    }
+
+    private static function mediaPickerAction(?string $collection = null): Action
+    {
+        return Action::make('openMediaPicker')
+            ->icon('heroicon-o-photo')
+            ->tooltip(__('Browse media'))
+            ->modalHeading(__('Select media'))
+            ->modalSubmitAction(false)
+            ->modalCancelActionLabel(__('Close'))
+            ->modalWidth(Width::FiveExtraLarge)
+            ->modalContent(fn (): View => view('filament.media.picker-modal', ['collection' => $collection]));
     }
 }

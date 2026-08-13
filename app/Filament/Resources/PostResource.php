@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PostResource\Pages;
 use App\Models\Post;
 use Filament\Actions;
+use Filament\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
@@ -14,8 +15,10 @@ use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Support\Enums\Width;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Contracts\View\View;
 
 class PostResource extends Resource
 {
@@ -59,7 +62,11 @@ class PostResource extends Resource
                     ]),
                 Section::make(__('Media'))
                     ->schema([
-                        TextInput::make('cover_image_url')->url()->maxLength(500),
+                        TextInput::make('cover_image_url')
+                            ->url()
+                            ->maxLength(500)
+                            ->hint('16:9 recommended')
+                            ->suffixAction(self::mediaPickerAction('covers')),
                     ]),
                 Section::make(__('Publishing'))
                     ->schema([
@@ -108,5 +115,17 @@ class PostResource extends Resource
             'create' => Pages\CreatePost::route('/create'),
             'edit' => Pages\EditPost::route('/{record}/edit'),
         ];
+    }
+
+    private static function mediaPickerAction(?string $collection = null): Action
+    {
+        return Action::make('openMediaPicker')
+            ->icon('heroicon-o-photo')
+            ->tooltip(__('Browse media'))
+            ->modalHeading(__('Select media'))
+            ->modalSubmitAction(false)
+            ->modalCancelActionLabel(__('Close'))
+            ->modalWidth(Width::FiveExtraLarge)
+            ->modalContent(fn (): View => view('filament.media.picker-modal', ['collection' => $collection]));
     }
 }

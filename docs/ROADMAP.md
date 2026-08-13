@@ -42,7 +42,7 @@ Portafolio profesional bilingüe (EN/ES) de desarrollador fullstack senior + CMS
 ### Fase 4 — CMS (Filament v5)
 - [ ] Recursos Filament: Projects, Posts (categorías/tags), Skills, Experiences, ContactMessages (bandeja), Users
 - [ ] Dashboard con estadísticas (proyectos, posts, mensajes sin leer)
-- [ ] Upload de imágenes/media (thumbnail, portadas de proyectos, avatares)
+- [x] Media manager: tabla `media`, upload (GD), crop Cropper.js + presets, WebP/compresión, papelera, copy URL, picker en Posts/Projects (QA APROBADO)
 - [ ] Roles/permisos aplicados: `admin` gestiona todo; `editor` publica contenido
 - [ ] Criterios: CRUD completo desde el panel; permisos respetados; tests de recursos verdes
 
