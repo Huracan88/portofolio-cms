@@ -26,6 +26,12 @@
             'W' => 'bg-neo-text',
             'G' => 'bg-neo-muted',
         ];
+        $portraits = [];
+        foreach (range(1, 9) as $portraitNumber) {
+            $png = public_path('images/gemini-portraits/gemini-portrait-'.$portraitNumber.'.png');
+            $extension = is_file($png) ? 'png' : 'jpg';
+            $portraits[] = ['number' => $portraitNumber, 'extension' => $extension];
+        }
     @endphp
 
     {{-- ============================== HERO ============================== --}}
@@ -99,7 +105,7 @@
                 </div>
 
                 {{-- Pixel sprite terminal card --}}
-                <div class="relative mx-auto w-full max-w-md lg:mx-0 lg:justify-self-end">
+                <div class="relative mx-auto w-full max-w-[26rem] lg:mx-0 lg:justify-self-end">
                     <span class="absolute -top-2 -left-2 z-10 flex h-8 w-8 items-center justify-center border-2 border-neo-text bg-neo-bg font-mono text-sm font-bold text-neo-text shadow-neo-sm">+</span>
                     <span class="absolute -top-2 -right-2 z-10 h-8 w-8 border-2 border-neo-text bg-neo-bg shadow-neo-sm"></span>
                     <span class="absolute -bottom-2 -left-2 z-10 h-8 w-8 border-2 border-neo-text bg-neo-bg shadow-neo-sm"></span>
@@ -120,7 +126,7 @@
                             class="bg-neo-panel-deep"
                             x-data="{
                                 current: 0,
-                                total: 4,
+                                total: 9,
                                 transitioning: false,
                                 autoplayTimer: null,
                                 paused: false,
@@ -157,8 +163,7 @@
                                 prev() { this.go((this.current - 1 + this.total) % this.total); },
 
                                 label(i) {
-                                    const names = ['{{ __("Portrait") }} 1', '{{ __("Portrait") }} 2', '{{ __("Portrait") }} 3', '{{ __("Portrait") }} 4'];
-                                    return names[i];
+                                    return '{{ __("Portrait") }} ' + (i + 1);
                                 }
                             }"
                             @keydown.arrow-right.prevent="next()"
@@ -176,27 +181,27 @@
                             {{-- Carousel viewport --}}
                             <div class="relative aspect-[4/3] max-h-64 sm:max-h-72 overflow-hidden">
                                 {{-- Slides --}}
-                                @for ($i = 1; $i <= 4; $i++)
+                                @foreach ($portraits as $portrait)
                                     <div
                                         class="absolute inset-0 transition-opacity duration-200"
-                                        :class="current === {{ $i - 1 }} ? 'opacity-100 z-10' : 'opacity-0 z-0'"
+                                        :class="current === {{ $portrait['number'] - 1 }} ? 'opacity-100 z-10' : 'opacity-0 z-0'"
                                         role="group"
                                         aria-roledescription="{{ __('slide') }}"
-                                        :aria-label="label({{ $i - 1 }})"
-                                        :aria-hidden="current !== {{ $i - 1 }}"
-                                        x-show="current === {{ $i - 1 }} || transitioning"
+                                        :aria-label="label({{ $portrait['number'] - 1 }})"
+                                        :aria-hidden="current !== {{ $portrait['number'] - 1 }}"
+                                        x-show="current === {{ $portrait['number'] - 1 }} || transitioning"
                                     >
                                         <img
-                                            src="{{ asset('images/gemini-portraits/gemini-portrait-' . $i . '.png') }}"
-                                            alt="{{ __('AI generated pixel portrait :n', ['n' => $i]) }}"
+                                            src="{{ asset('images/gemini-portraits/gemini-portrait-' . $portrait['number'] . '.' . $portrait['extension']) }}"
+                                            alt="{{ __('AI generated pixel portrait :n', ['n' => $portrait['number']]) }}"
                                             class="h-full w-full object-cover"
                                             width="1195"
                                             height="896"
-                                            loading="{{ $i === 1 ? 'eager' : 'lazy' }}"
+                                            loading="{{ $portrait['number'] === 1 ? 'eager' : 'lazy' }}"
                                             decoding="async"
                                         >
                                     </div>
-                                @endfor
+                                @endforeach
 
                                 {{-- CRT Scanline overlay (always visible, intensifies during transition) --}}
                                 <div
@@ -228,11 +233,11 @@
                                     aria-label="{{ __('Next portrait') }}"
                                 >▶</button>
 
-                                {{-- Counter "01 / 04" --}}
+                                {{-- Counter "01 / 09" --}}
                                 <div class="absolute top-2 right-2 z-40 border-2 border-neo-text bg-neo-bg/90 px-2 py-0.5 font-mono text-[10px] font-bold tracking-widest text-neo-text">
                                     <span x-text="String(current + 1).padStart(2, '0')">01</span>
                                     <span class="text-neo-muted">/</span>
-                                    <span>04</span>
+                                    <span x-text="String(total).padStart(2, '0')">09</span>
                                 </div>
 
                                 {{-- Autoplay indicator --}}
@@ -244,19 +249,19 @@
 
                             {{-- Dot indicators --}}
                             <div class="flex items-center justify-center gap-2 border-t-2 border-neo-text bg-neo-panel-deep px-4 py-2.5" role="tablist" aria-label="{{ __('Portrait navigation') }}">
-                                @for ($i = 1; $i <= 4; $i++)
+                                @foreach ($portraits as $portrait)
                                     <button
                                         type="button"
                                         class="border-2 px-2 py-0.5 font-pixel text-[8px] transition-all duration-150"
-                                        :class="current === {{ $i - 1 }}
+                                        :class="current === {{ $portrait['number'] - 1 }}
                                             ? 'border-neo-text bg-neo-text text-neo-bg shadow-neo-sm animate-dot-pop'
                                             : 'border-neo-muted bg-neo-panel text-neo-muted hover:border-neo-text hover:text-neo-text'"
-                                        @click="go({{ $i - 1 }})"
+                                        @click="go({{ $portrait['number'] - 1 }})"
                                         role="tab"
-                                        :aria-selected="current === {{ $i - 1 }}"
-                                        aria-label="{{ __('Go to portrait :n', ['n' => $i]) }}"
-                                    >{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}</button>
-                                @endfor
+                                        :aria-selected="current === {{ $portrait['number'] - 1 }}"
+                                        aria-label="{{ __('Go to portrait :n', ['n' => $portrait['number']]) }}"
+                                    >{{ str_pad($portrait['number'], 2, '0', STR_PAD_LEFT) }}</button>
+                                @endforeach
                             </div>
                         </div>
 
@@ -455,7 +460,7 @@
 
             <p class="font-mono text-xs font-bold tracking-[0.3em] text-neo-muted uppercase">// {{ __('Contact') }}</p>
             <h2 class="mx-auto mt-4 max-w-3xl font-display-heavy text-4xl tracking-tight text-neo-text uppercase sm:text-5xl">
-                {{ __('READY TO BUILD SOMETHING?') }}
+                {{ __('READY TO BUILD SOMETHING AMAZING') }}
             </h2>
             <p class="mx-auto mt-4 max-w-2xl text-neo-muted">{{ __('Let\'s turn your idea into production-ready software. No bureaucracy, just clean engineering.') }}</p>
 

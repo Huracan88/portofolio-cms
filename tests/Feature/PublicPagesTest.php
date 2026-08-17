@@ -263,8 +263,9 @@ test('home page renders the AI portrait carousel', function () {
     $response->assertOk();
     $response->assertSee('aria-roledescription="'.__('carousel').'"', false);
     $response->assertSee(__('AI generated portraits'), false);
-    foreach (range(1, 4) as $i) {
-        $response->assertSee('gemini-portrait-'.$i.'.png', false);
+    foreach (range(1, 9) as $i) {
+        $extension = is_file(public_path('images/gemini-portraits/gemini-portrait-'.$i.'.png')) ? 'png' : 'jpg';
+        $response->assertSee('gemini-portrait-'.$i.'.'.$extension, false);
         $response->assertSee(__('AI generated pixel portrait :n', ['n' => $i]), false);
     }
     $response->assertSee(__('Next portrait'), false);
