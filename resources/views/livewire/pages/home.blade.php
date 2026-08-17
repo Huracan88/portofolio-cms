@@ -105,7 +105,7 @@
                 </div>
 
                 {{-- Pixel sprite terminal card --}}
-                <div class="relative mx-auto w-full max-w-[26rem] lg:mx-0 lg:justify-self-end">
+                <div class="relative mx-auto w-full max-w-[384px] lg:mx-0 lg:justify-self-end">
                     <span class="absolute -top-2 -left-2 z-10 flex h-8 w-8 items-center justify-center border-2 border-neo-text bg-neo-bg font-mono text-sm font-bold text-neo-text shadow-neo-sm">+</span>
                     <span class="absolute -top-2 -right-2 z-10 h-8 w-8 border-2 border-neo-text bg-neo-bg shadow-neo-sm"></span>
                     <span class="absolute -bottom-2 -left-2 z-10 h-8 w-8 border-2 border-neo-text bg-neo-bg shadow-neo-sm"></span>
