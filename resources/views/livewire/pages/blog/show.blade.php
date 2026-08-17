@@ -38,8 +38,8 @@
         </div>
 
         @if ($post->body)
-            <div class="text-neo-muted leading-relaxed text-base">
-                {!! nl2br(e($post->body)) !!}
+            <div class="text-neo-muted leading-relaxed text-base prose prose-neo max-w-none">
+                {!! $post->body !!}
             </div>
         @endif
     </article>

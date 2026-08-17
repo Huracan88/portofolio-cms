@@ -176,3 +176,79 @@ body {
         opacity: 1;
     }
 }
+
+/* ── Article rich content (RichEditor output) ── */
+.prose-neo {
+    @apply text-neo-muted;
+}
+
+.prose-neo > * + * {
+    @apply mt-5;
+}
+
+.prose-neo h1,
+.prose-neo h2,
+.prose-neo h3,
+.prose-neo h4 {
+    @apply font-display font-bold tracking-tight text-neo-text;
+}
+
+.prose-neo h1 {
+    @apply text-3xl;
+}
+
+.prose-neo h2 {
+    @apply text-2xl;
+}
+
+.prose-neo h3 {
+    @apply text-xl;
+}
+
+.prose-neo h4 {
+    @apply text-lg;
+}
+
+.prose-neo a {
+    @apply text-neo-text underline underline-offset-4 decoration-neo-line hover:decoration-neo-text;
+}
+
+.prose-neo strong {
+    @apply font-semibold text-neo-text;
+}
+
+.prose-neo ul {
+    @apply list-disc pl-6;
+}
+
+.prose-neo ol {
+    @apply list-decimal pl-6;
+}
+
+.prose-neo li {
+    @apply mt-1.5;
+}
+
+.prose-neo blockquote {
+    @apply border-l-4 border-neo-text pl-4 italic;
+}
+
+.prose-neo code {
+    @apply bg-neo-panel px-1.5 py-0.5 font-mono text-sm text-neo-text;
+}
+
+.prose-neo pre {
+    @apply overflow-x-auto bg-neo-panel-deep p-4 font-mono text-sm text-neo-text border-2 border-neo-line;
+}
+
+.prose-neo pre code {
+    @apply bg-transparent p-0;
+}
+
+.prose-neo img {
+    @apply max-w-full h-auto border-2 border-neo-line;
+}
+
+.prose-neo hr {
+    @apply border-neo-line;
+}
