@@ -43,6 +43,7 @@ Portafolio profesional bilingüe (EN/ES) de desarrollador fullstack senior + CMS
 - [ ] Recursos Filament: Projects, Posts (categorías/tags), Skills, Experiences, ContactMessages (bandeja), Users
 - [ ] Dashboard con estadísticas (proyectos, posts, mensajes sin leer)
 - [x] Media manager: tabla `media`, upload (GD), crop Cropper.js + presets, WebP/compresión, papelera, copy URL, picker en Posts/Projects (QA APROBADO)
+- [x] Settings + IA en el panel: settings key-value propios (`settings`), key de OpenRouter cifrada (Crypt), página Settings (admin/super_admin), traducción IA ES↔EN en Post/Project (admin+editor), generación de imágenes IA en Media Library (colección `generated`) vía OpenRouter
 - [ ] Roles/permisos aplicados: `admin` gestiona todo; `editor` publica contenido
 - [ ] Criterios: CRUD completo desde el panel; permisos respetados; tests de recursos verdes
 

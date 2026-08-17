@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Actions\TranslateSectionAction;
 use App\Filament\Resources\PostResource\Pages;
 use App\Models\Post;
 use Filament\Actions;
@@ -39,12 +40,18 @@ class PostResource extends Resource
                         TextInput::make('slug')->required()->maxLength(350)->unique(ignoreRecord: true),
                         Textarea::make('excerpt_en')->maxLength(500),
                         RichEditor::make('body_en'),
+                    ])
+                    ->afterHeader([
+                        TranslateSectionAction::make('es', 'en'),
                     ]),
                 Section::make(__('Spanish Content'))
                     ->schema([
                         TextInput::make('title_es')->required()->maxLength(300),
                         Textarea::make('excerpt_es')->maxLength(500),
                         RichEditor::make('body_es'),
+                    ])
+                    ->afterHeader([
+                        TranslateSectionAction::make('en', 'es'),
                     ]),
                 Section::make(__('Relations'))
                     ->schema([

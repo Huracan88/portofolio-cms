@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\ProjectResource\Pages;
 
+use App\Filament\Concerns\InteractsWithAiTranslation;
 use App\Filament\Resources\ProjectResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
@@ -9,7 +10,17 @@ use Livewire\Attributes\On;
 
 class EditProject extends EditRecord
 {
+    use InteractsWithAiTranslation;
+
     protected static string $resource = ProjectResource::class;
+
+    /**
+     * @return array<int, string>
+     */
+    public function translatableFields(): array
+    {
+        return ['title', 'excerpt', 'description'];
+    }
 
     protected function getHeaderActions(): array
     {

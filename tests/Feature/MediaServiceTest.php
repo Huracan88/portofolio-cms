@@ -105,6 +105,32 @@ it('deleteFile removes the physical file', function () {
     expect(Media::find($media->id))->not->toBeNull();
 });
 
+it('stores a raw binary image and registers it with real mime and dimensions', function () {
+    $image = imagecreatetruecolor(32, 24);
+    ob_start();
+    imagepng($image);
+    $png = (string) ob_get_clean();
+    imagedestroy($image);
+
+    $media = $this->service->storeBinary($png, 'image/png', 'ai-generated.png', $this->user->id, 'generated');
+
+    expect($media)->toBeInstanceOf(Media::class);
+    expect($media->mime_type)->toBe('image/png');
+    expect($media->extension)->toBe('png');
+    expect($media->collection)->toBe('generated');
+    expect($media->user_id)->toBe($this->user->id);
+    expect($media->width)->toBe(32);
+    expect($media->height)->toBe(24);
+    expect(Storage::disk('public')->exists($media->path))->toBeTrue();
+});
+
+it('rejects non-image binary payloads', function () {
+    expect(fn () => $this->service->storeBinary('this is not an image', 'text/plain', 'fake.txt', $this->user->id, 'generated'))
+        ->toThrow(InvalidImageException::class);
+
+    expect(Media::count())->toBe(0);
+});
+
 it('rejects processing animated gifs', function () {
     $path = tempnam(sys_get_temp_dir(), 'gif_').'.gif';
 

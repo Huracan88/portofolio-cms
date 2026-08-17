@@ -22,28 +22,75 @@ class MediaService
             throw new InvalidImageException('The image exceeds the maximum allowed upload size.');
         }
 
+        $sourcePath = $file->getRealPath();
+        $mime = $this->processor->detectMime($sourcePath);
+
         $disk = (string) config('media.disk');
         $directory = (string) config('media.directory');
 
-        // Re-validate the real content; rejects renamed non-image files.
-        $mime = $this->processor->detectMime($file->getRealPath());
-
-        $extension = $this->extensionForMime($mime);
-        $fileName = Str::uuid().'.'.$extension;
+        $fileName = Str::uuid().'.'.$this->extensionForMime($mime);
         $path = $directory.'/'.$fileName;
 
         Storage::disk($disk)->putFileAs($directory, $file, $fileName);
 
-        $dimensions = $this->processor->dimensions($file->getRealPath());
+        return $this->createMediaRecord($sourcePath, $file->getClientOriginalName(), $mime, $userId, $collection, $disk, $path);
+    }
+
+    /**
+     * Store a raw image payload (e.g. AI generated) on disk and register it.
+     *
+     * The real mime is detected from the binary content; non-image payloads
+     * throw InvalidImageException.
+     */
+    public function storeBinary(string $binary, string $mediaType, string $originalName, ?int $userId, string $collection): Media
+    {
+        $tempPath = tempnam(sys_get_temp_dir(), 'media_');
+
+        if ($tempPath === false) {
+            throw new InvalidImageException('Unable to create a temporary file for the image.');
+        }
+
+        try {
+            file_put_contents($tempPath, $binary);
+
+            $mime = $this->processor->detectMime($tempPath);
+
+            $disk = (string) config('media.disk');
+            $directory = (string) config('media.directory');
+
+            $fileName = Str::uuid().'.'.$this->extensionForMime($mime);
+            $path = $directory.'/'.$fileName;
+
+            Storage::disk($disk)->put($path, $binary);
+
+            return $this->createMediaRecord($tempPath, $originalName, $mime, $userId, $collection, $disk, $path);
+        } finally {
+            @unlink($tempPath);
+        }
+    }
+
+    /**
+     * @param  non-empty-string  $sourcePath
+     */
+    private function createMediaRecord(
+        string $sourcePath,
+        string $originalName,
+        string $mime,
+        ?int $userId,
+        ?string $collection,
+        string $disk,
+        string $path,
+    ): Media {
+        $dimensions = $this->processor->dimensions($sourcePath);
 
         return Media::create([
             'user_id' => $userId,
-            'original_name' => $file->getClientOriginalName(),
-            'file_name' => $fileName,
+            'original_name' => $originalName,
+            'file_name' => basename($path),
             'disk' => $disk,
             'path' => $path,
             'mime_type' => $mime,
-            'extension' => $extension,
+            'extension' => $this->extensionForMime($mime),
             'size' => Storage::disk($disk)->size($path),
             'width' => $dimensions['width'],
             'height' => $dimensions['height'],

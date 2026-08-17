@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             EducationSeeder::class,
             LanguageSeeder::class,
             ExperienceSeeder::class,
+            SettingSeeder::class,
         ]);
 
         if (app()->environment('local', 'testing')) {

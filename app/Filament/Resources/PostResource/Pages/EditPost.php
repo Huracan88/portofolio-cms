@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\PostResource\Pages;
 
+use App\Filament\Concerns\InteractsWithAiTranslation;
 use App\Filament\Resources\PostResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
@@ -9,7 +10,17 @@ use Livewire\Attributes\On;
 
 class EditPost extends EditRecord
 {
+    use InteractsWithAiTranslation;
+
     protected static string $resource = PostResource::class;
+
+    /**
+     * @return array<int, string>
+     */
+    public function translatableFields(): array
+    {
+        return ['title', 'excerpt', 'body'];
+    }
 
     protected function getHeaderActions(): array
     {

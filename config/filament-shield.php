@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+use App\Filament\Pages\SettingsPage;
 use BezhanSalleh\FilamentShield\Resources\Roles\RoleResource;
 use Filament\Pages\Dashboard;
 use Filament\Widgets\AccountWidget;
@@ -215,6 +216,7 @@ return [
         'prefix' => 'view',
         'exclude' => [
             Dashboard::class,
+            SettingsPage::class,
         ],
     ],
 

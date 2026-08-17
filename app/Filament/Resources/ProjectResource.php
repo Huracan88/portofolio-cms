@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Actions\TranslateSectionAction;
 use App\Filament\Resources\ProjectResource\Pages;
 use App\Models\Project;
 use Filament\Actions;
@@ -39,12 +40,18 @@ class ProjectResource extends Resource
                         TextInput::make('slug')->required()->maxLength(250)->unique(ignoreRecord: true),
                         Textarea::make('excerpt_en')->maxLength(500),
                         RichEditor::make('description_en'),
+                    ])
+                    ->afterHeader([
+                        TranslateSectionAction::make('es', 'en'),
                     ]),
                 Section::make(__('Spanish Content'))
                     ->schema([
                         TextInput::make('title_es')->required()->maxLength(200),
                         Textarea::make('excerpt_es')->maxLength(500),
                         RichEditor::make('description_es'),
+                    ])
+                    ->afterHeader([
+                        TranslateSectionAction::make('en', 'es'),
                     ]),
                 Section::make(__('Media & Links'))
                     ->schema([
