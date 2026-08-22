@@ -1,5 +1,5 @@
 <div class="relative overflow-hidden bg-neo-bg text-neo-text">
-    @section('meta_description', $profile?->title ?? __('Senior Fullstack Developer & Software Engineer — 17+ years building custom web solutions.'))
+    @section('meta_description', $profile?->title ?? __('Fullstack Developer & Software Engineer — 15+ years building custom solutions.'))
     @section('meta_type', 'profile')
     @if($profile?->photo_url)
         @section('meta_image', asset($profile->photo_url))
@@ -61,11 +61,24 @@
 
                     {{-- Headline --}}
                     <h1 class="mt-6 font-display-heavy text-6xl leading-[0.92] tracking-tight text-neo-text uppercase sm:text-7xl lg:text-8xl">
-                        <span class="block">{{ __('FULLSTACK') }}</span>
-                        <span class="block">
+
+                        @if (app()->getLocale() === 'en')
+                            <span class="block">{{ __('FULLSTACK') }}</span>
+                            <span class="block">
                             <span class="inline-block bg-neo-text px-3 text-neo-bg shadow-neo-sm">{{ __('DEVELOPER') }}</span>
                         </span>
-                        <span class="block">{{ __('& ENGINEER') }}</span>
+                            <span class="block">{{ __('& ENGINEER') }}</span>
+                        @else
+                            <span class="inline-block bg-neo-text px-3 text-neo-bg shadow-neo-sm">{{ __('DEVELOPER') }}</span>
+                            <span class="block">
+                            <span class="block">{{ __('FULLSTACK') }}</span>
+                            <span class="block">{{ __('& ENGINEER') }}</span>
+                        </span>
+
+
+                        @endif
+
+
                     </h1>
 
                     <p class="mt-6 font-mono text-xs tracking-widest text-neo-muted uppercase sm:text-sm">

@@ -5,7 +5,7 @@
 @php
     $profile = \App\Models\Profile::getSingleton();
     $siteName = $profile?->full_name ?: 'Andrés Pinto';
-    $defaultDescription = __('Senior Fullstack Developer & Software Engineer — 17+ years building custom web solutions.');
+    $defaultDescription = __('Fullstack Developer & Software Engineer — 15+ years building custom solutions.');
 
     $metaDescription = trim((string) $__env->yieldContent('meta_description')) ?: $defaultDescription;
     $metaImage = trim((string) $__env->yieldContent('meta_image')) ?: null;
