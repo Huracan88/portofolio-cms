@@ -14,6 +14,8 @@ class Show extends Component
     public function mount(Project $project): void
     {
         abort_unless($project->is_visible, 404);
+
+        $project->loadMissing(['galleryImages.media', 'skills']);
     }
 
     public function render()

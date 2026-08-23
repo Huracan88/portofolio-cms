@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\ProjectResource\Pages;
 
 use App\Filament\Concerns\InteractsWithAiTranslation;
+use App\Filament\Concerns\InteractsWithGalleryPicker;
 use App\Filament\Resources\ProjectResource;
 use Filament\Resources\Pages\CreateRecord;
 use Livewire\Attributes\On;
@@ -10,6 +11,7 @@ use Livewire\Attributes\On;
 class CreateProject extends CreateRecord
 {
     use InteractsWithAiTranslation;
+    use InteractsWithGalleryPicker;
 
     protected static string $resource = ProjectResource::class;
 

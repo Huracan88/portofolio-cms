@@ -1,1 +1,1 @@
-<livewire:media-picker :collection="$collection ?? null" />
+<livewire:media-picker :collection="$collection ?? null" :event="$event ?? 'media-selected'" />

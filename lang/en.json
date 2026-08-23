@@ -241,5 +241,19 @@
     "Number of images": "Number of images",
     "Model": "Model",
     "Images generated successfully": "Images generated successfully",
-    "Some images could not be stored": "Some images could not be stored"
+    "Some images could not be stored": "Some images could not be stored",
+    "Gallery": "Gallery",
+    "Add images": "Add images",
+    "Caption (Spanish)": "Caption (Spanish)",
+    "Caption (English)": "Caption (English)",
+    "Image already in gallery": "Image already in gallery",
+    "Image :n": "Image :n",
+    "No media selected": "No media selected",
+    "GALLERY": "GALLERY",
+    "PROJECT GALLERY": "PROJECT GALLERY",
+    "Open image": "Open image",
+    "Close gallery": "Close gallery",
+    "Next image": "Next image",
+    "Previous image": "Previous image",
+    "Project gallery": "Project gallery"
 }

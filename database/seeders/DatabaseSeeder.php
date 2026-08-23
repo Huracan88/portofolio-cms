@@ -51,6 +51,7 @@ class DatabaseSeeder extends Seeder
             PostSeeder::class,
             ContactMessageSeeder::class,
             MediaSeeder::class,
+            ProjectGallerySeeder::class,
         ]);
     }
 }

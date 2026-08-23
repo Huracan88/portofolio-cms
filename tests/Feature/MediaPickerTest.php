@@ -107,3 +107,21 @@ test('the media picker modal renders inside the create post page', function () {
         ->mountAction(TestAction::make('openMediaPicker')->schemaComponent('cover_image_url', schema: 'form'))
         ->assertMountedActionModalSee('modal-pick.jpg');
 });
+
+test('the media picker dispatches a custom event name with the media id', function () {
+    $media = app(MediaService::class)->store(UploadedFile::fake()->image('gallery.jpg'), $this->admin->id, 'general');
+
+    Livewire::actingAs($this->admin)
+        ->test(MediaPicker::class, ['collection' => 'general', 'event' => 'gallery-media-selected'])
+        ->call('pick', $media->id)
+        ->assertDispatched('gallery-media-selected', url: $media->url, id: $media->id);
+});
+
+test('the media picker keeps dispatching the default event when no event prop is given', function () {
+    $media = app(MediaService::class)->store(UploadedFile::fake()->image('cover.jpg'), $this->admin->id, 'covers');
+
+    Livewire::actingAs($this->admin)
+        ->test(MediaPicker::class, ['collection' => 'covers'])
+        ->call('pick', $media->id)
+        ->assertDispatched('media-selected', url: $media->url, id: $media->id);
+});

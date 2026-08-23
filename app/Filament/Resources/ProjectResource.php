@@ -8,6 +8,8 @@ use App\Models\Project;
 use Filament\Actions;
 use Filament\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -15,11 +17,12 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\View;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Width;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Contracts\View\View;
+use Illuminate\Contracts\View\View as ViewContract;
 
 class ProjectResource extends Resource
 {
@@ -62,6 +65,31 @@ class ProjectResource extends Resource
                             ->suffixAction(self::mediaPickerAction()),
                         TextInput::make('project_url')->url()->maxLength(500),
                         TextInput::make('repo_url')->url()->maxLength(500),
+                    ]),
+                Section::make(__('Gallery'))
+                    ->schema([
+                        Repeater::make('galleryImages')
+                            ->relationship()
+                            ->orderColumn('sort_order')
+                            ->addable(false)
+                            ->reorderable()
+                            ->deletable()
+                            ->defaultItems(0)
+                            ->maxItems(12)
+                            ->collapsible()
+                            ->itemLabel(fn (array $state): ?string => filled($state['media_id'] ?? null)
+                                ? __('Image :n', ['n' => $state['media_id']])
+                                : null)
+                            ->schema([
+                                Hidden::make('media_id'),
+                                View::make('filament.resources.project-resource.gallery-image-preview')->columnSpan(2),
+                                TextInput::make('caption_es')->label(__('Caption (Spanish)'))->maxLength(255),
+                                TextInput::make('caption_en')->label(__('Caption (English)'))->maxLength(255),
+                            ])
+                            ->columns(2),
+                    ])
+                    ->afterHeader([
+                        self::mediaPickerAction(event: 'gallery-media-selected'),
                     ]),
                 Section::make(__('Skills'))
                     ->schema([
@@ -116,15 +144,19 @@ class ProjectResource extends Resource
         ];
     }
 
-    private static function mediaPickerAction(?string $collection = null): Action
+    private static function mediaPickerAction(?string $collection = null, ?string $event = null): Action
     {
         return Action::make('openMediaPicker')
             ->icon('heroicon-o-photo')
             ->tooltip(__('Browse media'))
+            ->label(fn (): ?string => $event ? __('Add images') : null)
             ->modalHeading(__('Select media'))
             ->modalSubmitAction(false)
             ->modalCancelActionLabel(__('Close'))
             ->modalWidth(Width::FiveExtraLarge)
-            ->modalContent(fn (): View => view('filament.media.picker-modal', ['collection' => $collection]));
+            ->modalContent(fn (): ViewContract => view('filament.media.picker-modal', [
+                'collection' => $collection,
+                'event' => $event,
+            ]));
     }
 }

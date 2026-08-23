@@ -241,5 +241,19 @@
     "Number of images": "Número de imágenes",
     "Model": "Modelo",
     "Images generated successfully": "Imágenes generadas correctamente",
-    "Some images could not be stored": "Algunas imágenes no se pudieron guardar"
+    "Some images could not be stored": "Algunas imágenes no se pudieron guardar",
+    "Gallery": "Galería",
+    "Add images": "Añadir imágenes",
+    "Caption (Spanish)": "Leyenda (español)",
+    "Caption (English)": "Leyenda (inglés)",
+    "Image already in gallery": "La imagen ya está en la galería",
+    "Image :n": "Imagen :n",
+    "No media selected": "Sin medio seleccionado",
+    "GALLERY": "GALERÍA",
+    "PROJECT GALLERY": "GALERÍA DEL PROYECTO",
+    "Open image": "Abrir imagen",
+    "Close gallery": "Cerrar galería",
+    "Next image": "Imagen siguiente",
+    "Previous image": "Imagen anterior",
+    "Project gallery": "Galería del proyecto"
 }

@@ -42,6 +42,8 @@
             </div>
         @endif
 
+        <x-project-gallery :project="$project" />
+
         @if ($project->skills->isNotEmpty())
             <div class="mb-8">
                 <p class="font-mono text-xs font-bold tracking-[0.3em] text-neo-muted uppercase mb-3">// {{ __('TECHNOLOGIES USED') }}</p>

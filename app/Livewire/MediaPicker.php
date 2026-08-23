@@ -14,6 +14,8 @@ class MediaPicker extends Component
 
     public ?string $collection = null;
 
+    public string $event = 'media-selected';
+
     public function mount(): void
     {
         $this->authorize('viewAny', Media::class);
@@ -34,7 +36,7 @@ class MediaPicker extends Component
             return;
         }
 
-        $this->dispatch('media-selected', url: $media->url);
+        $this->dispatch($this->event, url: $media->url, id: $media->id);
     }
 
     public function render()
