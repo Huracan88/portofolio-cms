@@ -1,12 +1,22 @@
-# Stage 1: Build frontend assets
+# Stage 1: Install Composer dependencies (including Filament CSS)
+FROM composer:2 AS composer-builder
+WORKDIR /app
+COPY composer*.json ./
+RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --no-scripts
+COPY . .
+RUN composer dump-autoload --optimize --no-dev
+
+# Stage 2: Build frontend assets with Vite & Tailwind v4
 FROM node:22-alpine AS frontend
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci
+# Filament's theme.css imports from vendor/filament/filament
+COPY --from=composer-builder /app/vendor /app/vendor
 COPY . .
 RUN npm run build
 
-# Stage 2: Production PHP runtime with FrankenPHP
+# Stage 3: Production PHP runtime with FrankenPHP
 FROM dunglas/frankenphp:1-php8.3-alpine AS runner
 
 # Install essential PHP extensions for Laravel 13, Filament v5 and ImageProcessor
@@ -23,16 +33,10 @@ ENV CADDY_GLOBAL_OPTIONS="auto_https off"
 
 WORKDIR /app
 
-# Copy Composer from official image
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-
-# Copy application code
-COPY . .
+# Copy application files with vendor and compiled assets
+COPY --from=composer-builder /app /app
 COPY --from=frontend /app/public/build /app/public/build
 COPY Caddyfile /etc/caddy/Caddyfile
-
-# Install PHP dependencies without dev packages
-RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
 
 # Set permissions
 RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache \
