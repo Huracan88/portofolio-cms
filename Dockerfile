@@ -39,8 +39,13 @@ RUN npm run build
 # 9. Clean up node_modules to keep image lightweight
 RUN rm -rf node_modules
 
-# 10. Configure permissions
-RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache \
+# 10. Ensure directories exist and configure permissions
+RUN mkdir -p /app/storage/framework/cache/data \
+             /app/storage/framework/sessions \
+             /app/storage/framework/views \
+             /app/storage/app/public \
+             /app/bootstrap/cache \
+    && chown -R www-data:www-data /app/storage /app/bootstrap/cache \
     && chmod -R 775 /app/storage /app/bootstrap/cache
 
 COPY Caddyfile /etc/caddy/Caddyfile
