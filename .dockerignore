@@ -1,0 +1,12 @@
+.git
+.github
+node_modules
+vendor
+.env
+.env.*
+storage/*.key
+public/storage
+public/build
+tests
+.idea
+.vscode
