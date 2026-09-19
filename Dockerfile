@@ -48,6 +48,9 @@ RUN mkdir -p /app/storage/framework/cache/data \
     && chown -R www-data:www-data /app/storage /app/bootstrap/cache \
     && chmod -R 775 /app/storage /app/bootstrap/cache
 
+# Copy custom Caddyfile with IPv4 bind
+COPY Caddyfile /etc/caddy/Caddyfile
+
 # Copy entrypoint
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
@@ -55,4 +58,4 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 EXPOSE 80
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-CMD ["frankenphp", "run"]
+CMD ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]
