@@ -1,10 +1,10 @@
-# Stage 1: Install Composer dependencies (including Filament CSS)
+# Stage 1: Install Composer dependencies (with --ignore-platform-reqs for build stage)
 FROM composer:2 AS composer-builder
 WORKDIR /app
 COPY composer*.json ./
-RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --no-scripts
+RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --no-scripts --ignore-platform-reqs
 COPY . .
-RUN composer dump-autoload --optimize --no-dev
+RUN composer dump-autoload --optimize --no-dev --ignore-platform-reqs
 
 # Stage 2: Build frontend assets with Vite & Tailwind v4
 FROM node:22-alpine AS frontend
