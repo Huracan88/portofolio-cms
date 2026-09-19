@@ -3,8 +3,7 @@
     auto_https off
 }
 
-:80 {
-    bind 0.0.0.0
+http://:80 {
     root * /app/public
     encode zstd gzip
     php_server
