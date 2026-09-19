@@ -15,7 +15,7 @@ RUN apk add --no-cache nodejs npm
 # 3. Install Composer from official image
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-ENV SERVER_NAME=":80"
+ENV SERVER_NAME="http://:80"
 ENV CADDY_GLOBAL_OPTIONS="auto_https off"
 
 WORKDIR /app
