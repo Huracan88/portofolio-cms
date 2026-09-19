@@ -1,25 +1,6 @@
-# Stage 1: Install Composer dependencies (with --ignore-platform-reqs for build stage)
-FROM composer:2 AS composer-builder
-WORKDIR /app
-COPY composer*.json ./
-RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --no-scripts --ignore-platform-reqs
-COPY . .
-RUN composer dump-autoload --optimize --no-dev --ignore-platform-reqs
-
-# Stage 2: Build frontend assets with Vite & Tailwind v4
-FROM node:22-alpine AS frontend
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci
-# Filament's theme.css imports from vendor/filament/filament
-COPY --from=composer-builder /app/vendor /app/vendor
-COPY . .
-RUN npm run build
-
-# Stage 3: Production PHP runtime with FrankenPHP
 FROM dunglas/frankenphp:1-php8.3-alpine AS runner
 
-# Install essential PHP extensions for Laravel 13, Filament v5 and ImageProcessor
+# 1. Install required PHP extensions for Laravel 13, Filament v5 and ImageProcessor
 RUN install-php-extensions \
     pdo_mysql \
     gd \
@@ -28,21 +9,41 @@ RUN install-php-extensions \
     bcmath \
     opcache
 
+# 2. Install Node.js & NPM for Vite asset compilation
+RUN apk add --no-cache nodejs npm
+
+# 3. Install Composer from official image
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
 ENV SERVER_NAME=":80"
 ENV CADDY_GLOBAL_OPTIONS="auto_https off"
 
 WORKDIR /app
 
-# Copy application files with vendor and compiled assets
-COPY --from=composer-builder /app /app
-COPY --from=frontend /app/public/build /app/public/build
-COPY Caddyfile /etc/caddy/Caddyfile
+# 4. Copy dependency manifests
+COPY composer.json composer.lock package.json package-lock.json ./
 
-# Set permissions
+# 5. Install PHP dependencies with full PHP 8.3 environment
+RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --no-scripts
+
+# 6. Install Node dependencies
+RUN npm ci
+
+# 7. Copy entire codebase (vendor is already present, so Filament CSS is available)
+COPY . .
+
+# 8. Dump autoloader and build production assets with Vite
+RUN composer dump-autoload --optimize --no-dev --no-scripts
+RUN npm run build
+
+# 9. Clean up node_modules to keep image lightweight
+RUN rm -rf node_modules
+
+# 10. Configure permissions
 RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache \
     && chmod -R 775 /app/storage /app/bootstrap/cache
 
-# Copy entrypoint
+COPY Caddyfile /etc/caddy/Caddyfile
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
