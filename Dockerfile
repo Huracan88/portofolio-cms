@@ -29,7 +29,7 @@ RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoload
 # 6. Install Node dependencies
 RUN npm ci
 
-# 7. Copy entire codebase (vendor is already present, so Filament CSS is available)
+# 7. Copy entire codebase
 COPY . .
 
 # 8. Dump autoloader and build production assets with Vite
@@ -48,11 +48,11 @@ RUN mkdir -p /app/storage/framework/cache/data \
     && chown -R www-data:www-data /app/storage /app/bootstrap/cache \
     && chmod -R 775 /app/storage /app/bootstrap/cache
 
-COPY Caddyfile /etc/caddy/Caddyfile
+# Copy entrypoint
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 EXPOSE 80
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-CMD ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]
+CMD ["frankenphp", "run"]

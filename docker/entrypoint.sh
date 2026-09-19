@@ -4,16 +4,16 @@ set -e
 # Storage link
 php artisan storage:link || true
 
-# Run database migrations
+# Run database migrations safely
 if [ "$RUN_MIGRATIONS" = "true" ]; then
     echo "Running database migrations..."
-    php artisan migrate --force
+    php artisan migrate --force || echo "Migration warning (check database connection)"
 fi
 
-# Run seeders if enabled
+# Run seeders safely
 if [ "$RUN_SEEDER" = "true" ]; then
     echo "Running database seeders..."
-    php artisan db:seed --force
+    php artisan db:seed --force || echo "Seeder warning"
 fi
 
 # Optimize Laravel for production
