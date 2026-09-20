@@ -82,23 +82,40 @@
     >
         <div class="px-4 py-4 space-y-2">
             @foreach ([
-                ['label' => __('Home'), 'route' => 'home'],
-                ['label' => __('Projects'), 'route' => 'projects.index'],
-                ['label' => __('Blog'), 'route' => 'blog.index'],
-                ['label' => __('Contact'), 'route' => 'contact'],
+                ['label' => __('Home'), 'route' => 'home', 'active' => request()->routeIs('home')],
+                ['label' => __('Projects'), 'route' => 'projects.index', 'active' => request()->routeIs('projects.*')],
+                ['label' => __('Blog'), 'route' => 'blog.index', 'active' => request()->routeIs('blog.*')],
+                ['label' => __('Contact'), 'route' => 'contact', 'active' => request()->routeIs('contact')],
             ] as $item)
                 <a
                     href="{{ route($item['route']) }}"
                     wire:navigate
                     @click="mobileOpen = false"
-                    class="block px-3 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-neo-muted hover:bg-neo-text hover:text-neo-bg"
+                    class="block px-3 py-2.5 font-mono text-xs font-bold uppercase tracking-wider transition-all duration-150 border-2 {{ ($item['active'] ?? false) ? 'bg-neo-text text-neo-bg border-neo-text shadow-neo-sm' : 'border-transparent text-neo-muted hover:border-neo-text hover:text-neo-text hover:bg-neo-panel' }}"
                 >
                     ▶ {{ $item['label'] }}
                 </a>
             @endforeach
-            <div class="flex items-center gap-2 pt-3">
-                <a href="{{ route('locale.switch', ['locale' => 'es']) }}" class="px-3 py-1.5 font-mono text-xs font-bold border-2 border-neo-text shadow-neo-sm transition-all duration-150 {{ app()->getLocale() === 'es' ? 'bg-neo-text text-neo-bg' : 'text-neo-muted hover:bg-neo-panel hover:text-neo-text' }}">ES</a>
-                <a href="{{ route('locale.switch', ['locale' => 'en']) }}" class="px-3 py-1.5 font-mono text-xs font-bold border-2 border-neo-text shadow-neo-sm transition-all duration-150 {{ app()->getLocale() === 'en' ? 'bg-neo-text text-neo-bg' : 'text-neo-muted hover:bg-neo-panel hover:text-neo-text' }}">EN</a>
+
+            <div class="pt-3 flex flex-col gap-3 border-t-2 border-neo-panel">
+                {{-- Mobile CTA --}}
+                <a
+                    href="{{ route('contact') }}"
+                    wire:navigate
+                    @click="mobileOpen = false"
+                    class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 font-mono text-xs font-bold uppercase tracking-wider bg-neo-text text-neo-bg border-2 border-neo-text shadow-neo-sm active:translate-x-0 active:translate-y-0 active:shadow-none"
+                >
+                    {{ __('HIRE ME') }} →
+                </a>
+
+                {{-- Language switch --}}
+                <div class="flex items-center gap-2">
+                    <span class="font-mono text-[10px] tracking-widest text-neo-muted uppercase">// {{ __('Language') }}:</span>
+                    <div class="flex items-center border-2 border-neo-text shadow-neo-sm">
+                        <a href="{{ route('locale.switch', ['locale' => 'es']) }}" class="px-3 py-1.5 font-mono text-xs font-bold {{ app()->getLocale() === 'es' ? 'bg-neo-text text-neo-bg' : 'text-neo-muted hover:bg-neo-panel hover:text-neo-text' }}">ES</a>
+                        <a href="{{ route('locale.switch', ['locale' => 'en']) }}" class="px-3 py-1.5 font-mono text-xs font-bold border-l-2 border-neo-text {{ app()->getLocale() === 'en' ? 'bg-neo-text text-neo-bg' : 'text-neo-muted hover:bg-neo-panel hover:text-neo-text' }}">EN</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -27,7 +27,7 @@
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col bg-neo-bg text-neo-text font-sans">
+<body class="min-h-screen flex flex-col bg-neo-bg text-neo-text font-sans overflow-x-clip">
 
     {{-- Skippy link --}}
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-4 focus:left-4 focus:px-4 focus:py-2 focus:bg-neo-text focus:text-neo-bg focus:border-2 focus:border-neo-text focus:shadow-neo-sm focus:outline-none">
