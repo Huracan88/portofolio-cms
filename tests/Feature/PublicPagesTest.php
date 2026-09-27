@@ -271,3 +271,11 @@ test('home page renders the AI portrait carousel', function () {
     $response->assertSee(__('Next portrait'), false);
     $response->assertSee(__('Previous portrait'), false);
 });
+
+test('header renders mobile language switcher alongside hamburger menu and removes it from drawer', function () {
+    $this->seed();
+    $response = $this->get(route('home'));
+    $response->assertOk();
+    $response->assertSee('flex md:hidden items-center gap-2', false);
+    $response->assertDontSee('// '.__('Language').':', false);
+});

@@ -53,11 +53,26 @@
             </a>
         </div>
 
-        {{-- Mobile hamburger --}}
-        <div class="flex md:hidden items-center">
+        {{-- Mobile actions --}}
+        <div class="flex md:hidden items-center gap-2">
+            {{-- Mobile language switcher --}}
+            <div class="flex items-center border-2 border-neo-text shadow-neo-sm h-9">
+                <a
+                    href="{{ route('locale.switch', ['locale' => 'es']) }}"
+                    class="h-full px-2.5 inline-flex items-center justify-center font-mono text-xs font-bold {{ app()->getLocale() === 'es' ? 'bg-neo-text text-neo-bg' : 'text-neo-muted hover:bg-neo-panel hover:text-neo-text' }}"
+                    aria-label="{{ __('Spanish') }}"
+                >ES</a>
+                <a
+                    href="{{ route('locale.switch', ['locale' => 'en']) }}"
+                    class="h-full px-2.5 inline-flex items-center justify-center font-mono text-xs font-bold border-l-2 border-neo-text {{ app()->getLocale() === 'en' ? 'bg-neo-text text-neo-bg' : 'text-neo-muted hover:bg-neo-panel hover:text-neo-text' }}"
+                    aria-label="{{ __('English') }}"
+                >EN</a>
+            </div>
+
+            {{-- Mobile hamburger --}}
             <button
                 @click="mobileOpen = !mobileOpen"
-                class="p-2 border-2 border-neo-text text-neo-text shadow-neo-sm transition-all duration-150 active:translate-x-0 active:translate-y-0 active:shadow-none"
+                class="flex h-9 w-9 items-center justify-center border-2 border-neo-text text-neo-text shadow-neo-sm transition-all duration-150 active:translate-x-0 active:translate-y-0 active:shadow-none"
                 :aria-label="mobileOpen ? '{{ __('Close Menu') }}' : '{{ __('Open Menu') }}'"
                 aria-expanded="false"
                 x-bind:aria-expanded="mobileOpen"
@@ -97,7 +112,7 @@
                 </a>
             @endforeach
 
-            <div class="pt-3 flex flex-col gap-3 border-t-2 border-neo-panel">
+            <div class="pt-3 border-t-2 border-neo-panel">
                 {{-- Mobile CTA --}}
                 <a
                     href="{{ route('contact') }}"
@@ -107,15 +122,6 @@
                 >
                     {{ __('HIRE ME') }} →
                 </a>
-
-                {{-- Language switch --}}
-                <div class="flex items-center gap-2">
-                    <span class="font-mono text-[10px] tracking-widest text-neo-muted uppercase">// {{ __('Language') }}:</span>
-                    <div class="flex items-center border-2 border-neo-text shadow-neo-sm">
-                        <a href="{{ route('locale.switch', ['locale' => 'es']) }}" class="px-3 py-1.5 font-mono text-xs font-bold {{ app()->getLocale() === 'es' ? 'bg-neo-text text-neo-bg' : 'text-neo-muted hover:bg-neo-panel hover:text-neo-text' }}">ES</a>
-                        <a href="{{ route('locale.switch', ['locale' => 'en']) }}" class="px-3 py-1.5 font-mono text-xs font-bold border-l-2 border-neo-text {{ app()->getLocale() === 'en' ? 'bg-neo-text text-neo-bg' : 'text-neo-muted hover:bg-neo-panel hover:text-neo-text' }}">EN</a>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
