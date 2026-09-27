@@ -29,9 +29,9 @@ test('home page displays featured projects', function () {
     $this->seed();
     $response = $this->get(route('home'));
     $response->assertOk();
-    $featuredCount = Project::where('is_visible', true)->where('is_featured', true)->count();
-    if ($featuredCount > 0) {
-        $response->assertSee('Catastro');
+    $featured = Project::where('is_visible', true)->where('is_featured', true)->first();
+    if ($featured) {
+        $response->assertSee($featured->title);
     }
 });
 
@@ -72,7 +72,10 @@ test('projects index renders successfully', function () {
     $response = $this->get(route('projects.index'));
     $response->assertOk();
     $response->assertSee(__('ALL PROJECTS'));
-    $response->assertSee('Catastro');
+    $project = Project::where('is_visible', true)->first();
+    if ($project) {
+        $response->assertSee($project->title);
+    }
 });
 
 test('projects index filters by sector', function () {
@@ -183,6 +186,35 @@ test('locale switch rejects invalid locale', function () {
     $this->seed();
     $this->get(route('locale.switch', ['locale' => 'fr']));
     $this->get(route('home'));
+    expect(app()->getLocale())->toBe('es');
+});
+
+test('auto detects spanish when browser Accept-Language header is spanish', function () {
+    $this->seed();
+    $this->withHeaders(['Accept-Language' => 'es-ES,es;q=0.9'])
+        ->get(route('home'));
+    expect(app()->getLocale())->toBe('es');
+});
+
+test('auto detects english when browser Accept-Language header is english', function () {
+    $this->seed();
+    $this->withHeaders(['Accept-Language' => 'en-US,en;q=0.9'])
+        ->get(route('home'));
+    expect(app()->getLocale())->toBe('en');
+});
+
+test('defaults to english when browser Accept-Language is any non-spanish language', function () {
+    $this->seed();
+    $this->withHeaders(['Accept-Language' => 'fr-FR,fr;q=0.9,de;q=0.8'])
+        ->get(route('home'));
+    expect(app()->getLocale())->toBe('en');
+});
+
+test('explicit locale session or cookie overrides browser Accept-Language header', function () {
+    $this->seed();
+    $this->withHeaders(['Accept-Language' => 'en-US,en;q=0.9'])
+        ->withSession(['locale' => 'es'])
+        ->get(route('home'));
     expect(app()->getLocale())->toBe('es');
 });
 

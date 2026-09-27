@@ -11,9 +11,16 @@ class SetLocale
 {
     public function handle(Request $request, Closure $next): mixed
     {
+        $browserLocale = null;
+        $acceptLanguage = $request->header('Accept-Language');
+        if (is_string($acceptLanguage) && trim($acceptLanguage) !== '') {
+            $browserLocale = $request->getPreferredLanguage(['en', 'es']);
+        }
+
         $locale = $request->query('lang')
             ?? Session::get('locale')
             ?? Cookie::get('locale')
+            ?? $browserLocale
             ?? 'es';
 
         $locale = in_array($locale, ['es', 'en']) ? $locale : 'es';
