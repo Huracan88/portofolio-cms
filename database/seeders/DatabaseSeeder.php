@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
             SettingSeeder::class,
         ]);
 
-        if (app()->environment('local', 'testing')) {
+//        if (app()->environment('local', 'testing')) {
             $admin = User::updateOrCreate(
                 ['email' => 'admin@example.com'],
                 [
@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
                 ]
             );
             $editor->assignRole('editor');
-        }
+//        }
 
         $this->call([
             ProjectSeeder::class,
