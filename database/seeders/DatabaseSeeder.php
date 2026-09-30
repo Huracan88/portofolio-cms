@@ -24,27 +24,27 @@ class DatabaseSeeder extends Seeder
             SettingSeeder::class,
         ]);
 
-//        if (app()->environment('local', 'testing')) {
-            $admin = User::updateOrCreate(
-                ['email' => 'admin@example.com'],
-                [
-                    'name' => 'Admin',
-                    'password' => 'password',
-                    'email_verified_at' => now(),
-                ]
-            );
-            $admin->assignRole('super_admin', 'admin');
+        //        if (app()->environment('local', 'testing')) {
+        $admin = User::updateOrCreate(
+            ['email' => 'admin@example.com'],
+            [
+                'name' => 'Admin',
+                'password' => 'password',
+                'email_verified_at' => now(),
+            ]
+        );
+        $admin->assignRole('super_admin', 'admin');
 
-            $editor = User::updateOrCreate(
-                ['email' => 'editor@example.com'],
-                [
-                    'name' => 'Editor',
-                    'password' => 'password',
-                    'email_verified_at' => now(),
-                ]
-            );
-            $editor->assignRole('editor');
-//        }
+        $editor = User::updateOrCreate(
+            ['email' => 'editor@example.com'],
+            [
+                'name' => 'Editor',
+                'password' => 'password',
+                'email_verified_at' => now(),
+            ]
+        );
+        $editor->assignRole('editor');
+        //        }
 
         $this->call([
             ProjectSeeder::class,
@@ -52,6 +52,7 @@ class DatabaseSeeder extends Seeder
             ContactMessageSeeder::class,
             MediaSeeder::class,
             ProjectGallerySeeder::class,
+            VisitSeeder::class,
         ]);
     }
 }
