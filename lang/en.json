@@ -255,5 +255,10 @@
     "Close gallery": "Close gallery",
     "Next image": "Next image",
     "Previous image": "Previous image",
-    "Project gallery": "Project gallery"
+    "Project gallery": "Project gallery",
+    "Change password": "Change password",
+    "Profile Information": "Profile Information",
+    "Update your account's profile information and email address.": "Update your account's profile information and email address.",
+    "Update Password": "Update Password",
+    "Ensure your account is using a long, random password to stay secure.": "Ensure your account is using a long, random password to stay secure."
 }

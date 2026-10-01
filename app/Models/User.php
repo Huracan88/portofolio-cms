@@ -3,9 +3,11 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use BezhanSalleh\FilamentShield\Support\Utils;
 use BezhanSalleh\FilamentShield\Traits\HasPanelShield;
 use Database\Factories\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,6 +24,15 @@ class User extends Authenticatable implements FilamentUser
     use HasFactory, Notifiable;
 
     use HasPanelShield, HasRoles;
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        if ($this->hasAnyRole([Utils::getSuperAdminName(), 'admin', 'editor'])) {
+            return true;
+        }
+
+        return (bool) $this->hasRole(Utils::getPanelUserRoleName());
+    }
 
     public function posts(): HasMany
     {

@@ -255,5 +255,10 @@
     "Close gallery": "Cerrar galería",
     "Next image": "Imagen siguiente",
     "Previous image": "Imagen anterior",
-    "Project gallery": "Galería del proyecto"
+    "Project gallery": "Galería del proyecto",
+    "Change password": "Cambiar contraseña",
+    "Profile Information": "Información del perfil",
+    "Update your account's profile information and email address.": "Actualiza la información de tu perfil y dirección de correo electrónico.",
+    "Update Password": "Actualizar contraseña",
+    "Ensure your account is using a long, random password to stay secure.": "Asegúrate de que tu cuenta utilice una contraseña larga y aleatoria para mantenerla segura."
 }
