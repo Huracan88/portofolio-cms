@@ -175,7 +175,7 @@ class ProjectSeeder extends Seeder
                 'image_url' => 'images/projects/payments.jpg',
                 'project_url' => null,
                 'repo_url' => null,
-                'sector' => 'fintech',
+                'sector' => 'enterprise',
                 'is_featured' => true,
                 'is_visible' => true,
                 'published_at' => '2025-01-15',

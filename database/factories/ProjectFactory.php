@@ -157,7 +157,7 @@ class ProjectFactory extends Factory
             'image_url' => null,
             'project_url' => null,
             'repo_url' => null,
-            'sector' => 'fintech',
+            'sector' => 'enterprise',
             'is_featured' => true,
             'published_at' => '2025-01-15',
             'sort_order' => 10,

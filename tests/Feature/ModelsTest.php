@@ -132,11 +132,11 @@ test('user has posts relationship', function () {
 
 test('profile saves and retrieves full name correctly', function () {
     $profile = Profile::factory()->create();
-    expect($profile->full_name)->toBe('Andrés Adrián Pinto Cámara');
+    expect($profile->full_name)->toBe('Andrés Pinto');
     expect($profile->title)->toBe('Fullstack Developer & Software Engineer');
     expect($profile->email)->toBe('andrespintocamara@gmail.com');
-    expect($profile->phone)->toBe('+52 983 135 4120');
-    expect($profile->license_number)->toBe('8566262');
+    expect($profile->phone)->toBeNull();
+    expect($profile->license_number)->toBeNull();
 });
 
 test('profile has social links as array', function () {

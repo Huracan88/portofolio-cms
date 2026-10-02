@@ -60,19 +60,17 @@
                     </div>
 
                     {{-- Headline --}}
-                    <h1 class="mt-5 sm:mt-6 font-display-heavy text-4xl xs:text-5xl sm:text-7xl lg:text-8xl leading-[1.0] sm:leading-[0.92] tracking-tight text-neo-text uppercase">
+                    <h1 class="mt-5 sm:mt-6 font-display-heavy text-3xl xs:text-4xl sm:text-6xl lg:text-7xl leading-[1.0] sm:leading-[0.92] tracking-tight text-neo-text uppercase">
 
                         @if (app()->getLocale() === 'en')
                             <span class="block">{{ __('FULLSTACK') }}</span>
                             <span class="block my-1 sm:my-0">
-                                <span class="inline-block max-w-full bg-neo-text px-2.5 sm:px-3 py-0.5 sm:py-0 text-neo-bg shadow-neo-sm">{{ __('DEVELOPER') }}</span>
+                                <span class="inline-block max-w-full whitespace-nowrap bg-neo-text px-2.5 sm:px-3 py-0.5 sm:py-0 text-neo-bg shadow-neo-sm">{{ __('ENGINEER') }}</span>
                             </span>
-                            <span class="block">{{ __('& ENGINEER') }}</span>
                         @else
-                            <span class="inline-block max-w-full bg-neo-text px-2.5 sm:px-3 py-0.5 sm:py-0 text-neo-bg shadow-neo-sm">{{ __('DEVELOPER') }}</span>
+                            <span class="block">{{ __('INGENIERO DE') }}</span>
                             <span class="block my-1 sm:my-0">
-                                <span class="block">{{ __('FULLSTACK') }}</span>
-                                <span class="block">{{ __('& ENGINEER') }}</span>
+                                <span class="inline-block max-w-full whitespace-nowrap bg-neo-text px-2.5 sm:px-3 py-0.5 sm:py-0 text-neo-bg shadow-neo-sm">{{ __('SOFTWARE') }}</span>
                             </span>
                         @endif
 
@@ -83,7 +81,7 @@
                     </p>
 
                     <p class="mx-auto mt-3 sm:mt-4 max-w-xl text-sm sm:text-base text-neo-muted lg:mx-0">
-                        {{ __('Building custom web solutions since 2008 across government, enterprise and fintech sectors.') }}
+                        {{ __('Building custom web solutions since 2008 across government and enterprise sectors.') }}
                     </p>
 
                     {{-- CTAs --}}
@@ -281,7 +279,7 @@
                         {{-- Footer bar --}}
                         <div class="border-t-2 border-neo-text bg-neo-panel-deep px-3 sm:px-4 py-2.5 sm:py-3">
                             <div class="flex items-center justify-between font-mono text-[9px] sm:text-[10px] tracking-wider sm:tracking-widest">
-                                <span class="text-neo-muted">SIG: AP#{{ $profile?->license_number ?? '000000' }}</span>
+                                <span class="text-neo-muted">SYS.STATUS: VERIFIED</span>
                                 <span class="flex items-center gap-1.5 text-neo-text">
                                     <span class="inline-block h-2 w-2 animate-blink bg-neo-text"></span>
                                     {{ __('OPEN FOR WORK') }}
@@ -321,7 +319,7 @@
                 <h2 class="mt-2.5 sm:mt-3 font-display-heavy text-3xl sm:text-4xl lg:text-5xl tracking-tight text-neo-text uppercase">
                     {{ __('FEATURED WORK') }}
                 </h2>
-                <p class="mt-2.5 sm:mt-3 max-w-xl text-sm sm:text-base text-neo-muted">{{ __('A selection of my best projects across government, enterprise and fintech.') }}</p>
+                <p class="mt-2.5 sm:mt-3 max-w-xl text-sm sm:text-base text-neo-muted">{{ __('A selection of my best projects across government and enterprise.') }}</p>
             </div>
             <a href="{{ route('projects.index') }}" wire:navigate class="w-full sm:w-auto inline-flex shrink-0 items-center justify-center gap-2 border-2 border-neo-text px-5 py-3 font-mono text-xs font-bold uppercase tracking-widest text-neo-text shadow-neo-sm transition-all duration-150 hover:-translate-x-1 hover:-translate-y-1 hover:bg-neo-text hover:text-neo-bg active:translate-x-0 active:translate-y-0 active:shadow-none text-center">
                 {{ __('VIEW ALL PROJECTS') }} →
@@ -402,7 +400,7 @@
             </div>
 
             {{-- Stat blocks --}}
-            <div class="mx-auto mt-8 sm:mt-10 grid max-w-4xl grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-4">
+            <div class="mx-auto mt-8 sm:mt-10 grid max-w-3xl grid-cols-3 gap-3 sm:gap-4">
                 <div class="border-2 border-neo-text bg-neo-panel p-3 sm:p-4 text-center shadow-neo-sm">
                     <p class="font-display-heavy text-2xl sm:text-3xl text-neo-text">17+</p>
                     <p class="mt-1 font-mono text-[8px] xs:text-[9px] font-bold tracking-wider sm:tracking-widest text-neo-muted uppercase">{{ __('YEARS') }}</p>
@@ -414,10 +412,6 @@
                 <div class="border-2 border-neo-text bg-neo-panel p-3 sm:p-4 text-center shadow-neo-sm">
                     <p class="font-display-heavy text-2xl sm:text-3xl text-neo-text">{{ $skills->flatten()->count() }}</p>
                     <p class="mt-1 font-mono text-[8px] xs:text-[9px] font-bold tracking-wider sm:tracking-widest text-neo-muted uppercase">{{ __('Skills') }}</p>
-                </div>
-                <div class="border-2 border-neo-text bg-neo-panel p-3 sm:p-4 text-center shadow-neo-sm">
-                    <p class="font-mono text-xs sm:text-sm font-bold leading-tight text-neo-text break-all">SIG<br>{{ $profile?->license_number ?? '000000' }}</p>
-                    <p class="mt-1 font-mono text-[8px] xs:text-[9px] font-bold tracking-wider sm:tracking-widest text-neo-muted uppercase">{{ __('License') }}</p>
                 </div>
             </div>
 

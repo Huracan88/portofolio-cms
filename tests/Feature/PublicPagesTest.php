@@ -48,7 +48,7 @@ test('home page uses neo-brutalist design elements', function () {
     $response = $this->get(route('home'));
     $response->assertOk();
     $response->assertSee(__('STATUS: READY FOR PRODUCTION'));
-    $response->assertSee(__('DEVELOPER'));
+    $response->assertSee(__('ENGINEER'));
     $response->assertSee(__('HIRE ME'));
 });
 

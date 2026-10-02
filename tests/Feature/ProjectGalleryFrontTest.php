@@ -39,8 +39,7 @@ test('gallery captions render in the active locale', function () {
     $first = $project->galleryImages->first();
     expect($first->caption_es)->not->toBeNull();
 
-    app()->setLocale('es');
-    $this->get(route('projects.show', $project))->assertSee($first->caption_es, false);
+    $this->get(route('projects.show', $project).'?lang=es')->assertSee($first->caption_es, false);
 
     $this->get(route('projects.show', $project).'?lang=en')->assertSee($first->caption_en, false);
 });

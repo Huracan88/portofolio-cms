@@ -1,8 +1,8 @@
 <div>
-    @section('meta_description', __('A selection of projects built over 17+ years of experience across government, enterprise, and fintech sectors.'))
+    @section('meta_description', __('A selection of projects built over 17+ years of experience across government and enterprise sectors.'))
     <x-section :title="__('ALL PROJECTS')" :eyebrow="__('PORTFOLIO')" align="center">
         <p class="max-w-2xl mx-auto mt-4 text-center text-neo-muted">
-            {{ __('A selection of projects built over 17+ years of experience across government, enterprise, and fintech sectors.') }}
+            {{ __('A selection of projects built over 17+ years of experience across government and enterprise sectors.') }}
         </p>
     </x-section>
 
@@ -17,7 +17,7 @@
             >
                 {{ __('All') }}
             </button>
-            @foreach (['government', 'enterprise', 'fintech'] as $sector)
+            @foreach (['government', 'enterprise'] as $sector)
                 <button
                     wire:click="setSector('{{ $sector }}')"
                     @class([
